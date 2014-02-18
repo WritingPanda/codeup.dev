@@ -19,5 +19,28 @@
         <button type="submit" name="submit">Oh my!</button>
     </p>
 </form>
+
+<!--Add inputs to the form that would allow a user to compose an email (to, from, subject, body, and a send button). Make sure to use the appropriate input types for each form element. Put headings above the forms. Label the first form as "User Login", and the second form as "Compose an Email". When complete, try submitting the new form and view the results in RequestBin.-->
+
+<form method="POST" action="http://requestb.in/p65ozkp6">
+	<p>
+		<label for="To">To</label>
+		<input id="To" name="To" type="text" placeholder="Receivers' email addresses">
+	</p>
+	<p>
+		<label for="From">From</label>
+		<input id="From" name="From" type="text" placeholder="Your email address">
+	</p>
+	<p>
+		<label for="subject">Subject</label>
+		<input id="subject" name="subject" type="text" placeholder="Subject">
+	</p>
+	<p>
+		<textarea id="email_body" name="email_body" rows="5" cols="40">Type your email here...</textarea>
+	</p>
+	<p>
+		<button type="submit">Send</button>
+	</p>
+</form>
 </body>
 </html>
