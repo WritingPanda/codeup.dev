@@ -27,9 +27,10 @@
 			do {
 				console.log("Odd number: " + i);
 				i++;
-				if (i == random) {
+				if (i % 2 == 0) {
+					break;	
+				} else if (i == random) {
 					console.log("Skip it! " + i);
-					continue;
 				}
 			} while (i % 2 != 0);
 		}
