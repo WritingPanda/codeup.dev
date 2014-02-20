@@ -16,10 +16,13 @@
 		console.log(names.length);
 		// todo:
 		// Create log statements that will print each of the names array elements individually.
-		console.log('The oldest dog is ' + names[0] + ".\n");
-		console.log('The youngest dog is ' + names[2] + ".\n");
-		console.log('The craziest dog is ' + names[3] + ".\n");
-		console.log('The laziest dog is ' + names[1] + ".\n");
+		for (var i = 0; i < names.length; i++) {
+			console.log('I have a dog named ' + names[i] + '.');
+		};
+
+		names.forEach(function(element, index, array) {
+			console.log('I have a dog named ' + element + ' with an index of ' + index + '.');
+		});
 	</script>
 </body>
 </html>
