@@ -13,7 +13,7 @@
 	// 	Keep asking if an empty input is provided.
 	do {
 		var name = prompt('What is your name, yo?');
-	} while (name === "" || name == 'null');
+	} while (name === "" || name == 'null' || name == null);
 
 	// todo: Show an alert message that welcomes the user based on their input.
 	alert("Welcome to my website, " + name + "!");
