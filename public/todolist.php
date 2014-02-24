@@ -2,6 +2,8 @@
 
 echo "<p>POST:</p>";
 var_dump($_POST);
+echo "<p>GET:</p>";
+var_dump($_GET);
 
 ?>
 <!doctype html>
@@ -14,7 +16,7 @@ var_dump($_POST);
 	<h1>TODO List</h1>
 
 	<h2>Add todos to the list</h2>
-	<form method="POST" action="">
+	<form method="POST" action="todolist.php">
 
 		<p>
 			<label for="newitem">Task: </label>
@@ -56,13 +58,13 @@ var_dump($_POST);
 			<li><?php echo $item; ?></li>
 			<a href='?remove=<?php echo $key; ?>'>Done</a>
 		
-		<?php } ?>
-		<?php
-			var_dump($_GET);
-			if (isset($_GET['remove'])) {
+		<?php }
+			if (!empty($_GET['remove'])) {
 				$key = $_GET['remove'];
 				unset($items[$key]);
 				save_file('data/todo_list.txt', $items);
+				header("Location: todolist.php");
+				exit;
 			}
 		?>
 		
