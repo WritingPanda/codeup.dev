@@ -1,11 +1,3 @@
-<?php
-
-echo "<p>POST:</p>";
-var_dump($_POST);
-echo "<p>GET:</p>";
-var_dump($_GET);
-
-?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -20,7 +12,7 @@ var_dump($_GET);
 
 		<p>
 			<label for="newitem">Task: </label>
-			<input id="newitem" name="newitem" type="text" placeholder="Enter task">
+			<input id="newitem" name="newitem" type="text" placeholder="Enter task" autofocus='autofocus'>
 		</p>
 		<p>
 			<button type="submit">Add todo</button>
@@ -33,7 +25,12 @@ var_dump($_GET);
 
 		function read_file($filename) {
 		    $handle = fopen($filename, "r");
-		    $contents = fread($handle, filesize($filename));
+		    $size = filesize($filename);
+		    if ($size == 0) {
+		    	echo "You don't have any todos! Nice!";
+		    	return array();
+		    }
+		    $contents = fread($handle, $size);
 		    $contents_array = explode("\n", $contents);
 		    fclose($handle);
 		    return $contents_array;
@@ -52,19 +49,19 @@ var_dump($_GET);
 			$newItem = $_POST['newitem'];
 			array_push($items, $newItem);
 			save_file('data/todo_list.txt', $items);
+			header('Location: todolist.php');
 		}
 
 		foreach ($items as $key => $item) { ?>
-			<li><?php echo $item; ?></li>
-			<a href='?remove=<?php echo $key; ?>'>Done</a>
+			<li><?php echo $item; ?>
+			<a href='?remove=<?php echo $key; ?>'>Done</a></li>
 		
-		<?php }
-			if (!empty($_GET['remove'])) {
+		<?php } 
+			if (isset($_GET['remove'])) {
 				$key = $_GET['remove'];
-				unset($items[$key]);
+				array_splice($items, $key, 1);
 				save_file('data/todo_list.txt', $items);
-				header("Location: todolist.php");
-				exit;
+				header('Location: todolist.php');
 			}
 		?>
 		
