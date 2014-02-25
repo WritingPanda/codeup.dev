@@ -81,7 +81,7 @@ if (count($_FILES) > 0 && $_FILES['upload']['error'] == 0 && $_FILES['upload']['
 			echo "<li>{$item} | <a href='?remove={$key}'>Complete</a></li>";
 		
 		}
-		 
+
 		if (isset($_GET['remove'])) {
 			$key = $_GET['remove'];
 			unset($items[$key]);
