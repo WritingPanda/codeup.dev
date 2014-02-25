@@ -21,14 +21,13 @@
 	<ul>
 		<?php 
 
-		$items = [];
-
 		function read_file($filename) {
 		    $handle = fopen($filename, "r");
 		    $size = filesize($filename);
 		    if ($size == 0) {
-		    	echo "You don't have any todos! Nice!";
-		    	return array();
+		    	echo "You don't have any tasks! Nice!";
+		    	echo "<p>Add some tasks!</p>";
+		    	return $items = [];
 		    }
 		    $contents = fread($handle, $size);
 		    $contents_array = explode("\n", $contents);
@@ -45,7 +44,7 @@
 
 		$items = read_file('data/todo_list.txt');
 
-		if (isset($_POST['newitem'])) {
+		if (isset($_POST['newitem']) && !empty($_POST['newitem'])) {
 			$newItem = $_POST['newitem'];
 			array_push($items, $newItem);
 			save_file('data/todo_list.txt', $items);
@@ -53,11 +52,11 @@
 			exit(0);
 		}
 
-		foreach ($items as $key => $item) { ?>
-			<li><?php echo $item; ?>
-			<a href='?remove=<?php echo $key; ?>'>Done</a></li>
+		foreach ($items as $key => $item) {
+			echo "<li>{$item}</li>";
+			echo "<a href='?remove={$key}'>Complete</a>";
 		
-		<?php } 
+		} 
 			if (isset($_GET['remove'])) {
 				$key = $_GET['remove'];
 				unset($items[$key]);
@@ -66,8 +65,6 @@
 				exit(0);
 			}
 		?>
-		
-
 	</ul>
 </body>
 </html>
