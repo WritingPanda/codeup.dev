@@ -65,7 +65,7 @@ if (count($_FILES) > 0 && $_FILES['upload']['error'] == 0 && $_FILES['upload']['
 		}
 
 		foreach ($items as $key => $item) {
-			echo "<li>{$item} | <a href='?remove={$key}'>Complete</a></li>";
+			echo "<li>" . htmlspecialchars(strip_tags($item)) . " | <a href='?remove={$key}'>Complete</a></li>";
 		
 		}
 

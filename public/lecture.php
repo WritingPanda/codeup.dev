@@ -1,66 +1,43 @@
-<?php
-
-echo "<p>POST:</p>";
-var_dump($_POST);
-
-?>
-
 <!doctype html>
-<html lang="en">
+<html>
 <head>
-	<meta charset="UTF-8">
-	<title>Lecture notes</title>
+    <title>File Upload</title>
 </head>
 <body>
 
-<h1>Login Form</h1>
-
 <?php 
 
-	session_start();
+	// Verify there were uploaded files and no errors
+if (count($_FILES) > 0 && $_FILES['file1']['error'] == 0) {
+    // Set the destination directory for uploads
+    $upload_dir = '/vagrant/sites/codeup.dev/public/uploads/';
+    // Grab the filename from the uploaded file by using basename
+    $filename = basename($_FILES['file1']['name']);
+    // Create the saved filename using the file's original name and our upload directory
+    $saved_filename = $upload_dir . $filename;
+    // Move the file from the temp location to our uploads directory
+    move_uploaded_file($_FILES['file1']['tmp_name'], $saved_filename);
+}
 
-	$username = 'codeup';
-	$password = 'letmein';
+// Check if we saved a file
+if (isset($saved_filename)) {
+    // If we did, show a link to the uploaded file
+    echo "<p>You can download your file <a href='/uploads/{$filename}'>here</a>.</p>";
+}
 
-	if ($_GET['logout'] == TRUE) {
-		$_SESSION = array();
-		session_destroy();
-		header("Location: lecture.php");
-	}
-
-	if (!empty($_POST)) {
-		if ($_POST['username'] == $username && $_POST['password'] == $password)
-			$_SESSION['logged in'] = TRUE;
-	}
-
-	var_dump($_COOKIE);
-	var_dump($_SESSION);
-
-	if ($_SESSION['logged in'] == TRUE) {
-		echo "<p>You are logged in.</p>";
-		echo "<p><a href='lecture.php?logout=true'>Log out</a></p>";
-	} else {
-
-    // foreach($_POST as $key => $value) {
-    //     echo "<p>{$key} => ${value}</p>";
-    // }
 ?>
 
-<form method="POST" action="">
+<h1>Upload File</h1>
+
+<form method="POST" enctype="multipart/form-data">
     <p>
-        <label for="username">Username</label>
-        <input id="username" name="username" type="text">
+        <label for="file1">File to upload: </label>
+        <input type="file" id="file1" name="file1">
     </p>
     <p>
-        <label for="password">Password</label>
-        <input id="password" name="password" type="password">
-    </p>
-    <p>
-        <input type="submit">
+        <input type="submit" value="Upload">
     </p>
 </form>
-
-<?php } ?>
 
 </body>
 </html>
