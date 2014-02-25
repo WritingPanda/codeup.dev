@@ -38,22 +38,9 @@ if (count($_FILES) > 0 && $_FILES['upload']['error'] == 0 && $_FILES['upload']['
 </head>
 <body>
 	<h1>TODO List</h1>
-	<img src='img/do-all-things.png'>
+	<img src='img/do-all-things.png' width=200 height=150>
 
 	<form method='POST' enctype='multipart/form-data' action='todolist.php'>
-
-		<p>
-			<label for='newitem'>Task: </label>
-			<input id='newitem' name='newitem' type='text' placeholder='Enter task' autofocus='autofocus'>
-		</p>
-		<p>
-			<label for='upload'>Upload a file to add to the list: </label>
-			<input id='upload' name='upload' type='file'>
-		</p>
-		<p>
-			<button type='submit'>Add todo</button>
-		</p>
-	</form>
 	<ul>
 		<?php 
 
@@ -92,5 +79,18 @@ if (count($_FILES) > 0 && $_FILES['upload']['error'] == 0 && $_FILES['upload']['
 		
 		?>
 	</ul>
+		<p>
+			<label for='newitem'>Task: </label>
+			<input id='newitem' name='newitem' type='text' placeholder='Enter task' autofocus='autofocus'>
+		</p>
+		<p>
+			<label for='upload'>Upload a file to add to the list: </label>
+			<input id='upload' name='upload' type='file'>
+		</p>
+		<p>
+			<button type='submit'>Add todo</button>
+		</p>
+	</form>
+
 </body>
 </html>
