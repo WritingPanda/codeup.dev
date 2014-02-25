@@ -21,8 +21,14 @@ function save_file($filename, $data_to_save) {
 	fclose($handle);
 }
 
-?>
+if (count($_FILES) > 0 && $_FILES['upload']['error'] == 0 && $_FILES['upload']['type'] == 'text/plain') {
+	$upload_dir = '/vagrant/sites/codeup.dev/public/uploads/';
+	$filename = basename($_FILES['upload']['name']);
+	$saved_filename = $upload_dir . $filename;
+	move_uploaded_file($_FILES['upload']['tmp_name'], $saved_filename);
+}
 
+?>
 
 <!doctype html>
 <html lang="en">
@@ -32,13 +38,17 @@ function save_file($filename, $data_to_save) {
 </head>
 <body>
 	<h1>TODO List</h1>
+	<img src='img/do-all-things.png'>
 
-	<h2>Add todos to the list</h2>
-	<form method='POST' action='todolist.php'>
+	<form method='POST' enctype='multipart/form-data' action='todolist.php'>
 
 		<p>
 			<label for='newitem'>Task: </label>
 			<input id='newitem' name='newitem' type='text' placeholder='Enter task' autofocus='autofocus'>
+		</p>
+		<p>
+			<label for='upload'>Upload a file to add to the list: </label>
+			<input id='upload' name='upload' type='file'>
 		</p>
 		<p>
 			<button type='submit'>Add todo</button>
@@ -57,17 +67,28 @@ function save_file($filename, $data_to_save) {
 			exit(0);
 		}
 
+		if (!empty($_FILES['upload']) && $_FILES['upload']['type'] == 'text/plain') {
+			$newFileArray = read_file("/vagrant/sites/codeup.dev/public/uploads/{$filename}");
+			$combineArray = array_merge($items, $newFileArray);
+			save_file('data/todo_list.txt', $combineArray);
+			header('Location: todolist.php');
+			exit(0);
+		} elseif (count($_FILES) > 0 && $_FILES['upload']['type'] != 'text/plain') {
+			echo "<p><strong>ERROR:</strong> File is not a txt file.</p>";
+		}
+
 		foreach ($items as $key => $item) {
 			echo "<li>{$item} | <a href='?remove={$key}'>Complete</a></li>";
 		
-		} 
-			if (isset($_GET['remove'])) {
-				$key = $_GET['remove'];
-				unset($items[$key]);
-				save_file('data/todo_list.txt', $items);
-				header('Location: todolist.php');
-				exit(0);
-			}
+		}
+		 
+		if (isset($_GET['remove'])) {
+			$key = $_GET['remove'];
+			unset($items[$key]);
+			save_file('data/todo_list.txt', $items);
+			header('Location: todolist.php');
+			exit(0);
+		}
 		
 		?>
 	</ul>
