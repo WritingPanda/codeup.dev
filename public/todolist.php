@@ -8,14 +8,14 @@
 	<h1>TODO List</h1>
 
 	<h2>Add todos to the list</h2>
-	<form method="POST" action="todolist.php">
+	<form method='POST' action='todolist.php'>
 
 		<p>
-			<label for="newitem">Task: </label>
-			<input id="newitem" name="newitem" type="text" placeholder="Enter task" autofocus='autofocus'>
+			<label for='newitem'>Task: </label>
+			<input id='newitem' name='newitem' type='text' placeholder='Enter task' autofocus='autofocus'>
 		</p>
 		<p>
-			<button type="submit">Add todo</button>
+			<button type='submit'>Add todo</button>
 		</p>
 	</form>
 	<ul>
@@ -45,11 +45,12 @@
 
 		$items = read_file('data/todo_list.txt');
 
-		if (!empty($_POST)) {
+		if (isset($_POST['newitem'])) {
 			$newItem = $_POST['newitem'];
 			array_push($items, $newItem);
 			save_file('data/todo_list.txt', $items);
 			header('Location: todolist.php');
+			exit(0);
 		}
 
 		foreach ($items as $key => $item) { ?>
@@ -62,6 +63,7 @@
 				array_splice($items, $key, 1);
 				save_file('data/todo_list.txt', $items);
 				header('Location: todolist.php');
+				exit(0);
 			}
 		?>
 		
