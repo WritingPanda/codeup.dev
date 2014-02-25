@@ -44,7 +44,7 @@
 
 		$items = read_file('data/todo_list.txt');
 
-		if (isset($_POST['newitem']) && !empty($_POST['newitem'])) {
+		if (!empty($_POST['newitem'])) {
 			$newItem = $_POST['newitem'];
 			array_push($items, $newItem);
 			save_file('data/todo_list.txt', $items);
@@ -53,8 +53,7 @@
 		}
 
 		foreach ($items as $key => $item) {
-			echo "<li>{$item}</li>";
-			echo "<a href='?remove={$key}'>Complete</a>";
+			echo "<li>{$item} | <a href='?remove={$key}'>Complete</a></li>";
 		
 		} 
 			if (isset($_GET['remove'])) {
