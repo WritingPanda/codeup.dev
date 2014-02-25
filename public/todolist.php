@@ -1,3 +1,29 @@
+<?php
+
+function read_file($filename) {
+    $handle = fopen($filename, "r");
+    $size = filesize($filename);
+    if ($size == 0) {
+    	echo "You don't have any tasks! Nice!";
+    	echo "<p>Add some tasks!</p>";
+    	return $items = [];
+    }
+    $contents = fread($handle, $size);
+    $contents_array = explode("\n", $contents);
+    fclose($handle);
+    return $contents_array;
+}
+
+function save_file($filename, $data_to_save) {
+	$handle = fopen($filename, 'w');
+	$contents = implode("\n", $data_to_save);
+	fwrite($handle, $contents);
+	fclose($handle);
+}
+
+?>
+
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -21,27 +47,6 @@
 	<ul>
 		<?php 
 
-		function read_file($filename) {
-		    $handle = fopen($filename, "r");
-		    $size = filesize($filename);
-		    if ($size == 0) {
-		    	echo "You don't have any tasks! Nice!";
-		    	echo "<p>Add some tasks!</p>";
-		    	return $items = [];
-		    }
-		    $contents = fread($handle, $size);
-		    $contents_array = explode("\n", $contents);
-		    fclose($handle);
-		    return $contents_array;
-		}
-
-		function save_file($filename, $data_to_save) {
-			$handle = fopen($filename, 'w');
-        	$contents = implode("\n", $data_to_save);
-        	fwrite($handle, $contents);
-        	fclose($handle);
-		}
-
 		$items = read_file('data/todo_list.txt');
 
 		if (!empty($_POST['newitem'])) {
@@ -63,6 +68,7 @@
 				header('Location: todolist.php');
 				exit(0);
 			}
+		
 		?>
 	</ul>
 </body>
