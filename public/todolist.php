@@ -60,7 +60,7 @@
 		<?php } 
 			if (isset($_GET['remove'])) {
 				$key = $_GET['remove'];
-				array_splice($items, $key, 1);
+				unset($items[$key]);
 				save_file('data/todo_list.txt', $items);
 				header('Location: todolist.php');
 				exit(0);
