@@ -1,82 +1,40 @@
 <?php
 
+$filename = 'data/addressbook.csv';
 $address_book = array();
 $entries = array();
 
-function store_entry($filename, $lines) {
-	$handle = fopen($filename, 'a+');
-	foreach ($lines as $line) {
-		fputcsv($handle, $line);
+function store_entry($filename, $rows) {
+	$handle = fopen($filename, 'w');
+	foreach ($rows as $row) {
+		fputcsv($handle, $row);
 	}
 	fclose($handle);
 }
 
-	//  Create a function to store a new entry. 
-	// A new entry should have validate 6 required fields: 
-	// name, address, city, state, zip, and phone number. 
-	// Display error if each is not filled out.
-
-if (!empty($_POST['name'])) {
-	if (empty($_POST['name'])){
-		$name = $_POST['name'];
-		array_push($entries, $name);
-	} else {
-		echo "<p>Please enter your name.</p>";
-	}
+function readCSV($filename) {
+	$contents = [];
+    $handle = fopen($filename, "r");
+    while(($data = fgetcsv($handle)) !== FALSE) {
+    	$contents[] = $data;
+    }
+    fclose($handle);
+    return $contents;
 }
 
-if (!empty($_POST['address'])) {
-	if (empty($_POST['address'])) {
-		$address = $_POST['address'];
-		array_push($entries, $address);
-	} else{
-		echo "<p>Please enter your address.</p>";
-	}
-}
-
-if (!empty($_POST['city'])) {
-	if (empty($_POST['city'])) {}
-		$city = $_POST['city'];
-		array_push($entries, $city);
-	} else {
-		echo "<p>Please enter your city.</p>";
-	}
-}
-
-if (!empty($_POST['state'])) {
-	if (empty($)_POST['state']) {
-		$state = $_POST['state'];
-		array_push($entries, $state);	
-	} else {
-		echo "<p>Please enter your state.</p>";
-	}
-}
-
-if (!empty($_POST['zip'])) {
-	if (empty($_POST['zip'])) {
-		$zip = $_POST['zip'];
-		array_push($entries, $zip);
-	} else {
-		echo "<p>Please enter your zip code.</p>";
-	}
-}
-
-if (!empty($_POST['phone'])) {
-	if (empty($_POST['phone'])) {
-		$phone = $_POST['phone'];
-		array_push($entries, $phone);
-	} else {
-		echo "<p>Please enter your phone number.</p>";
-	}
-}
+$address_book = readCSV($filename);
 
 if (!empty($_POST)) {
-	$newContent = array_push($address_book, $entries);
-	var_dump($newContent);
-	store_entry('data/addressbook.csv', $newContent);
-}
-
-
+	$name = $_POST['name'];
+	$address = $_POST['address'];
+	$city = $_POST['city'];
+	$state = $_POST['state'];
+	$zip = $_POST['zip'];
+	$phone = $_POST['phone'];
+	$entries = [$name, $address, $city, $state, $zip, $phone];
+	array_push($address_book, $entries);
+	store_entry($filename, $address_book);
+} 
 ?>
 
 <!doctype html>
@@ -113,7 +71,7 @@ padding:5px;
 		foreach ($address_book as $entries) {
 			echo "<tr>";
 			foreach ($entries as $entry) {
-				echo "<td>" . $entry . "</td>";
+				echo "<td>" . htmlspecialchars(strip_tags($entry)) . "</td>";
 			}
 		}
 		echo "</tr>";
