@@ -1,0 +1,27 @@
+<?php
+
+$address_book = [];
+
+function store_entry($address_book) {
+	//  Create a function to store a new entry. 
+	// A new entry should have validate 5 required fields: 
+	// name, address, city, state, and zip. 
+	// Display error if each is not filled out.
+	$csvfile = 'data/addressbook.csv';
+	$handle = fopen($csvfile, 'w');
+	foreach ($address_book as $fields) {
+		fputcsv($handle, $fields);
+	}
+}
+
+?>
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Address Book</title>
+</head>
+<body>
+	
+</body>
+</html>
