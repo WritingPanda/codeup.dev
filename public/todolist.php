@@ -91,6 +91,7 @@ if (count($_FILES) > 0 && $_FILES['upload']['error'] == 0 && $_FILES['upload']['
 			<button type='submit'>Add todo</button>
 		</p>
 	</form>
+	<p style="color:blue;margin-left:20px;">&copy; 2014 Written by a Panda</p>
 
 </body>
 </html>
