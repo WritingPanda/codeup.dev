@@ -1,55 +1,36 @@
 <?php
 
-$filename = 'data/addressbook.csv';
 $address_book = array();
 $entries = array();
 
-// class AddressDataStore {
+class AddressDataStore {
 	
-// 	public $filename = '';
+	public $filename = '';
 
-// 	function readCSV() {
-// 		$contents = [];
-// 		$handle = fopen($this->filename, "r");
-// 		while(($data = fgetcsv($handle)) !== FALSE) {
-// 			$contents[] = $data;
-// 		}
-//     	fclose($handle);
-//     	return $contents;
-// 	}
-
-// 	function store_entry($rows) {
-// 		// Code to write $addresses_array to file $this->filename
-// 		$handle = fopen($this->filename, 'w');
-// 		foreach ($rows as $row) {
-// 			fputcsv($handle, $row);
-// 		}
-// 		fclose($handle);
-// 		}
-// }
-
-function store_entry($filename, $rows) {
-	$handle = fopen($filename, 'w');
-	foreach ($rows as $row) {
-		fputcsv($handle, $row);
+	function readCSV() {
+		$contents = [];
+		$handle = fopen($this->filename, "r");
+		while(($data = fgetcsv($handle)) !== FALSE) {
+			$contents[] = $data;
+		}
+    	fclose($handle);
+    	return $contents;
 	}
-	fclose($handle);
+
+	function store_entry($rows) {
+		$handle = fopen($this->filename, 'w');
+		foreach ($rows as $row) {
+			fputcsv($handle, $row);
+		}
+		fclose($handle);
+		}
 }
 
-function readCSV($filename) {
-	$contents = [];
-    $handle = fopen($filename, "r");
-    while(($data = fgetcsv($handle)) !== FALSE) {
-    	$contents[] = $data;
-    }
-    fclose($handle);
-    return $contents;
-}
+$adrbk = new AddressDataStore();
+$adrbk->filename = 'data/addressbook.csv';
 
-// $adrbk = new AddressDataStore();
-// $adrbk->filename = 'data/addressbook.csv';
+$address_book = $adrbk->readCSV();
 
-$address_book = readCSV($filename);
 $errors = [];
 
 if (!empty($_POST)) {
@@ -71,7 +52,7 @@ if (!empty($_POST)) {
 
 	if (empty($errors)) {
 		array_push($address_book, array_values($entries));
-		store_entry($filename, $address_book);
+		$adrbk->store_entry($address_book);
 	}
 }
 
@@ -122,7 +103,7 @@ padding:5px;
 		if (isset($_GET['remove'])) {
 			$key = $_GET['remove'];
 			unset($address_book[$key]);
-			store_entry('data/addressbook.csv', $address_book);
+			$adrbk->store_entry($address_book);
 			header('Location: addressbook.php');
 			exit(0);
 		}
