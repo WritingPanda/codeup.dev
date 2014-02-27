@@ -23,8 +23,9 @@ class Conversation {
         }
     }
 
+    // Method to say goodbye
     function say_goodbye() {
-        return "Goodbye {$this->name} {$this->lastname}!";
+        return "Goodbye, {$this->name} {$this->lastname}!";
     }
 }
 
@@ -32,8 +33,8 @@ class Conversation {
 $chat = new Conversation();
 
 // Set the $name variable
-$chat->name = 'Codeup';
-$chat->lastname = 'Cohort';
+$chat->name = 'Omar';
+$chat->lastname = 'Quimbaya';
 
 // Output greeting to $name
 echo $chat->say_hello(FALSE);
