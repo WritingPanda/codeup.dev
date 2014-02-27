@@ -25,23 +25,33 @@ function readCSV($filename) {
 $address_book = readCSV($filename);
 
 if (!empty($_POST)) {
-	$name = $_POST['name'];
-	$address = $_POST['address'];
-	$city = $_POST['city'];
-	$state = $_POST['state'];
-	$zip = $_POST['zip'];
-	$phone = $_POST['phone'];
-	$entries = [$name, $address, $city, $state, $zip, $phone];
+	// $name = $_POST['name'];
+	// $address = $_POST['address'];
+	// $city = $_POST['city'];
+	// $state = $_POST['state'];
+	// $zip = $_POST['zip'];
+	// $phone = $_POST['phone'];
+	// $entries = [$name, $address, $city, $state, $zip, $phone];
+
+	// for each POST as key => value
+		// if value is empty
+			// set error message = key is not defined.
+		// else set cleaned entries[] = to new array
+			//	htmlspecialchar strip_tags
+
+
+
+
 	array_push($address_book, $entries);
 	store_entry($filename, $address_book);
-} 
+}
 ?>
 
 <!doctype html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Your Address Book App!</title>
+	<title>Your Address Book</title>
 </head>
 <style>
 table,th,td
@@ -71,13 +81,13 @@ padding:5px;
 		foreach ($address_book as $entries) {
 			echo "<tr>";
 			foreach ($entries as $entry) {
-				echo "<td>" . htmlspecialchars(strip_tags($entry)) . "</td>";
+				echo "<td>" . $entry . "</td>";
 			}
 		}
 		echo "</tr>";
 		?>
-	</table>
-	<p>Please fill out the fields to enter a new entry in your address book:</p></center>
+	</table></center>
+	<p>Please fill out the fields to enter a new entry in your address book:</p>
 	<form method='POST' enctype='multipart/form-data' action='addressbook.php'>
 		<p>
 			<label for='name'>Name: </label>
