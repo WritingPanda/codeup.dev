@@ -54,20 +54,16 @@ $errors = [];
 
 if (!empty($_POST)) {
 	$entry = [];
-	$entry['name'] = $_POST['name'];
-	$entry['address'] = $_POST['address'];
-	$entry['city'] = $_POST['city'];
-	$entry['state'] = $_POST['state'];
-	$entry['zip'] = $_POST['zip'];
-	$entry['phone'] = $_POST['phone'];
-	foreach ($entry as $key => $value) {
+	foreach ($_POST as $key => $value) {
 		if (empty($value)) {
-			echo "<p>{$key} is not defined.</p>";
-		} else{
+			$errors[] = "<p><center><h2><font color='red'>" . ucfirst($key) . " is not defined.</font></h2></center></p>";
+		} else {
 			$entry[] = $value;
 		}
-	array_push($address_book, $entry);
-	store_entry($filename, $address_book);
+	}
+	if (empty($errors)) {
+		array_push($address_book, $entry);
+		store_entry($filename, $address_book);
 	}
 }
 
@@ -129,24 +125,36 @@ padding:5px;
 		<p>
 			<label for='name'>Name: </label>
 			<input id='name' name='name' type='text' autofocus='autofocus'>
-
+		</p>
+		<p>
 			<label for='address'>Address: </label>
 			<input id='address' name='address' type='text'>
-		
+		</p>
+		<p>
 			<label for='city'>City: </label>
 			<input id='city' name='city' type='text'>
-		
+		</p>
+		<p>
 			<label for='state'>State: </label>
 			<input id='state' name='state' type='text'>
-		
+		</p>
+		<p>
 			<label for='zip'>Zip: </label>
 			<input id='zip' name='zip' type='text'>
-		
+		</p>
+		<p>
 			<label for='phone'>Phone: </label>
 			<input id='phone' name='phone' type='text'>
-		
+		</p>
 			<button type='submit'>Add Address</button>
 		</p></center>
 	</form>
+	<?php
+	if(!empty($errors)){
+		foreach ($errors as $message) {
+			echo $message;
+		}
+	}
+	?>
 </body>
 </html>
