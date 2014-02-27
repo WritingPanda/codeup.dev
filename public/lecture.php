@@ -13,8 +13,14 @@ class Conversation {
     public $lastname = '';
 
     // Method to say hello to name
-    function say_hello() {
-        return "Hello {$this->name} {$this->lastname}.";
+    function say_hello($newline = FALSE) {
+        $greeting = "Hello {$this->name} {$this->lastname}.";
+
+        if ($newline == FALSE) {
+            return $greeting;
+        } else{
+            return $greeting . PHP_EOL;
+        }
     }
 }
 
@@ -27,6 +33,8 @@ $chat->lastname = 'Cohort';
 
 // Output greeting to $name
 echo $chat->say_hello();
+
+echo "New line test.";
 ?>
 </body>
 </html>
