@@ -4,6 +4,19 @@ $filename = 'data/addressbook.csv';
 $address_book = array();
 $entries = array();
 
+class ADdressDataStore {
+	
+	public $filename = '';
+
+	function readCSV() {
+		// Code to read file $this->filename
+	}
+
+	function store_entry($addresses_array) {
+		// Code to write $addresses_array to file $this->filename
+	}
+}
+
 function store_entry($filename, $rows) {
 	$handle = fopen($filename, 'w');
 	foreach ($rows as $row) {
