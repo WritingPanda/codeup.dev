@@ -1,10 +1,3 @@
-<!doctype html>
-<html>
-<head>
-    <title>Classes</title>
-</head>
-<body>
-
 <?php 
 
 class Conversation {
@@ -28,6 +21,14 @@ class Conversation {
         return "Goodbye, {$this->name} {$this->lastname}!";
     }
 }
+?>
+<!doctype html>
+<html>
+<head>
+    <title>Classes</title>
+</head>
+<body>
+<?php 
 
 // Create a new instance of Conversation
 $chat = new Conversation();
@@ -42,7 +43,6 @@ echo $chat->say_hello(FALSE);
 echo $chat->say_hello(TRUE);
 
 echo $chat->say_goodbye();
-
 
 ?>
 </body>
