@@ -54,15 +54,23 @@ $errors = [];
 
 if (!empty($_POST)) {
 	$entry = [];
-	foreach ($_POST as $key => $value) {
+	$entry['name'] = $_POST['name'];
+	$entry['address'] = $_POST['address'];
+	$entry['city'] = $_POST['city'];
+	$entry['state'] = $_POST['state'];
+	$entry['zip'] = $_POST['zip'];
+	$entry['phone'] = $_POST['phone'];
+	
+	foreach ($entry as $key => $value) {
 		if (empty($value)) {
 			$errors[] = "<p><center><h2><font color='red'>" . ucfirst($key) . " is not defined.</font></h2></center></p>";
 		} else {
-			$entry[] = $value;
+			$entries[] = $value;
 		}
 	}
+
 	if (empty($errors)) {
-		array_push($address_book, $entry);
+		array_push($address_book, array_values($entries));
 		store_entry($filename, $address_book);
 	}
 }
@@ -120,35 +128,7 @@ padding:5px;
 		}
 		?>
 	</table></center>
-	<center><p>Please fill out the fields to enter a new entry in your address book:</p>
-	<form method='POST' enctype='multipart/form-data' action='addressbook.php'>
-		<p>
-			<label for='name'>Name: </label>
-			<input id='name' name='name' type='text' autofocus='autofocus'>
-		</p>
-		<p>
-			<label for='address'>Address: </label>
-			<input id='address' name='address' type='text'>
-		</p>
-		<p>
-			<label for='city'>City: </label>
-			<input id='city' name='city' type='text'>
-		</p>
-		<p>
-			<label for='state'>State: </label>
-			<input id='state' name='state' type='text'>
-		</p>
-		<p>
-			<label for='zip'>Zip: </label>
-			<input id='zip' name='zip' type='text'>
-		</p>
-		<p>
-			<label for='phone'>Phone: </label>
-			<input id='phone' name='phone' type='text'>
-		</p>
-			<button type='submit'>Add Address</button>
-		</p></center>
-	</form>
+	
 	<?php
 	if(!empty($errors)){
 		foreach ($errors as $message) {
@@ -156,5 +136,34 @@ padding:5px;
 		}
 	}
 	?>
+	<center><p>Please fill out the fields to enter a new entry in your address book:</p></center>
+	<form method='POST' enctype='multipart/form-data' action='addressbook.php'>
+		<p style='margin-left:10em;'>
+			<label for='name'>Name: </label>
+			<input id='name' name='name' type='text' autofocus='autofocus'>
+		</p>
+		<p style='margin-left:10em;'>
+			<label for='address'>Address: </label>
+			<input id='address' name='address' type='text'>
+		</p>
+		<p style='margin-left:10em;'>
+			<label for='city'>City: </label>
+			<input id='city' name='city' type='text'>
+		</p>
+		<p style='margin-left:10em;'>
+			<label for='state'>State: </label>
+			<input id='state' name='state' type='text'>
+		</p>
+		<p style='margin-left:10em;'>
+			<label for='zip'>Zip: </label>
+			<input id='zip' name='zip' type='text'>
+		</p>
+		<p style='margin-left:10em;'>
+			<label for='phone'>Phone: </label>
+			<input id='phone' name='phone' type='text'>
+		</p>
+			<button type='submit' style='margin-left:14em;'>Add Address</button>
+		</p>
+	</form>
 </body>
 </html>
