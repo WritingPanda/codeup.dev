@@ -25,23 +25,13 @@ function readCSV($filename) {
 $address_book = readCSV($filename);
 
 if (!empty($_POST)) {
-	// $name = $_POST['name'];
-	// $address = $_POST['address'];
-	// $city = $_POST['city'];
-	// $state = $_POST['state'];
-	// $zip = $_POST['zip'];
-	// $phone = $_POST['phone'];
-	// $entries = [$name, $address, $city, $state, $zip, $phone];
-
-	// for each POST as key => value
-		// if value is empty
-			// set error message = key is not defined.
-		// else set cleaned entries[] = to new array
-			//	htmlspecialchar strip_tags
-
-
-
-
+	$name = $_POST['name'];
+	$address = $_POST['address'];
+	$city = $_POST['city'];
+	$state = $_POST['state'];
+	$zip = $_POST['zip'];
+	$phone = $_POST['phone'];
+	$entries = [$name, $address, $city, $state, $zip, $phone];
 	array_push($address_book, $entries);
 	store_entry($filename, $address_book);
 }
@@ -87,35 +77,29 @@ padding:5px;
 		echo "</tr>";
 		?>
 	</table></center>
-	<p>Please fill out the fields to enter a new entry in your address book:</p>
+	<center><p>Please fill out the fields to enter a new entry in your address book:</p>
 	<form method='POST' enctype='multipart/form-data' action='addressbook.php'>
 		<p>
 			<label for='name'>Name: </label>
-			<input id='name' name='name' type='text' autofocus='autofocus'>
-		</p>
-		<p>
+			<input id='name' name='name' type='text' autofocus='autofocus' required>
+
 			<label for='address'>Address: </label>
-			<input id='address' name='address' type='text'>
-		</p>
-		<p>
+			<input id='address' name='address' type='text' required>
+		
 			<label for='city'>City: </label>
-			<input id='city' name='city' type='text'>
-		</p>
-		<p>
+			<input id='city' name='city' type='text' required>
+		
 			<label for='state'>State: </label>
-			<input id='state' name='state' type='text'>
-		</p>
-		<p>
+			<input id='state' name='state' type='text' required>
+		
 			<label for='zip'>Zip: </label>
-			<input id='zip' name='zip' type='text'>
-		</p>
-		<p>
+			<input id='zip' name='zip' type='text' required>
+		
 			<label for='phone'>Phone: </label>
-			<input id='phone' name='phone' type='text'>
-		</p>
-		<p>
+			<input id='phone' name='phone' type='text' required>
+		
 			<button type='submit'>Add Address</button>
-		</p>
+		</p></center>
 	</form>
 </body>
 </html>
