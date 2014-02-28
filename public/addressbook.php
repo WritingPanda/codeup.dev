@@ -7,6 +7,10 @@ class AddressDataStore {
 	
 	public $filename = '';
 
+	function __construct($file = 'data/addressbook.csv') {
+		$this->filename = $file;
+	}
+
 	function readCSV() {
 		$contents = [];
 		$handle = fopen($this->filename, "r");
@@ -23,14 +27,11 @@ class AddressDataStore {
 			fputcsv($handle, $row);
 		}
 		fclose($handle);
-		}
+	}
 }
 
-$adrbk = new AddressDataStore();
-$adrbk->filename = 'data/addressbook.csv';
-
-$address_book = $adrbk->readCSV();
-
+$adrbook = new AddressDataStore();
+$address_book = $adrbook->readCSV();
 $errors = [];
 
 if (!empty($_POST)) {
@@ -44,7 +45,7 @@ if (!empty($_POST)) {
 	
 	foreach ($entry as $key => $value) {
 		if (empty($value)) {
-			$errors[] = "<p><center><h2><font color='red'>" . ucfirst($key) . " is not defined.</font></h2></center></p>";
+			$errors[] = "<p><center><h2><font color='red'>" . ucfirst($key) . " is not found.</font></h2></center></p>";
 		} else {
 			$entries[] = $value;
 		}
@@ -52,7 +53,7 @@ if (!empty($_POST)) {
 
 	if (empty($errors)) {
 		array_push($address_book, array_values($entries));
-		$adrbk->store_entry($address_book);
+		$adrbook->store_entry($address_book);
 	}
 }
 
@@ -103,10 +104,27 @@ padding:5px;
 		if (isset($_GET['remove'])) {
 			$key = $_GET['remove'];
 			unset($address_book[$key]);
-			$adrbk->store_entry($address_book);
+			$adrbook->store_entry($address_book);
 			header('Location: addressbook.php');
 			exit(0);
 		}
+
+		if (count($_FILES) > 0 && $_FILES['upload']['error'] == 0 && $_FILES['upload']['type'] == 'text/csv') {
+			// Receive upload and store it in a folder
+			$upload_dir = '/vagrant/sites/codeup.dev/public/uploads/';
+			$filename = basename($_FILES['upload']['name']);
+			$saved_filename = $upload_dir . $filename;
+			move_uploaded_file($_FILES['upload']['tmp_name'], $saved_filename);
+			// Read and save file to be read in the address book app
+			$newFileArray = $adrbook->readCSV();
+			$combineArray = array_merge($address_book, $newFileArray);
+			$adrbook->store_entry($combineArray);
+			header('Location: addressbook.php');
+			exit(0);
+		} elseif (count($_FILES) > 0 && $_FILES['upload']['type'] != 'text/csv') {
+			echo "<p><strong>ERROR:</strong> File is not a txt file.</p>";
+		}
+
 		?>
 	</table></center>
 	
@@ -143,8 +161,18 @@ padding:5px;
 			<label for='phone'>Phone: </label>
 			<input id='phone' name='phone' type='text'>
 		</p>
+		<p>
 			<button type='submit' style='margin-left:14em;'>Add Address</button>
 		</p>
+		<p style='margin-left:10em;'>
+			<label for='upload'>Upload a CSV to load into the address book: </label>
+			<input id='upload' name='upload' type='file'>
+		</p>
+		<p>
+			<button type='submit' style='margin-left:14em'>Upload</button>
+		</p>
 	</form>
+	<p style="color:blue;margin-left:20px;">&copy; 2014 Written by a Panda</p>
+
 </body>
 </html>
