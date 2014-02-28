@@ -9,6 +9,7 @@ $adrbook = new AddressDataStore();
 $address_book = $adrbook->readCSV();
 $errors = [];
 
+// Error validation
 if (!empty($_POST)) {
 	$entry = [];
 	$entry['name'] = $_POST['name'];
@@ -17,7 +18,7 @@ if (!empty($_POST)) {
 	$entry['state'] = $_POST['state'];
 	$entry['zip'] = $_POST['zip'];
 	$entry['phone'] = $_POST['phone'];
-	
+	// Organizing error messages
 	foreach ($entry as $key => $value) {
 		if (empty($value)) {
 			$errors[] = "<p><center><h2><font color='red'>" . ucfirst($key) . " is not found.</font></h2></center></p>";
@@ -25,7 +26,7 @@ if (!empty($_POST)) {
 			$entries[] = $value;
 		}
 	}
-
+	// If there are no errors, go ahead and save the address book
 	if (empty($errors)) {
 		array_push($address_book, array_values($entries));
 		$adrbook->store_entry($address_book);
@@ -75,7 +76,7 @@ th
 			<th>Remove link</th>
 		</tr>
 		<?php 
-
+		// Show entries in address book, stripped of tags and shown via HTML special characters
 		foreach ($address_book as $key => $entries) {
 			echo "<tr>";
 			foreach ($entries as $entry) {
@@ -85,7 +86,7 @@ th
 
 		}
 		echo "</tr>";
-
+		// Remove item from address book
 		if (isset($_GET['remove'])) {
 			$key = $_GET['remove'];
 			unset($address_book[$key]);
@@ -114,6 +115,7 @@ th
 	</table></center>
 	
 	<?php
+	// Show error message below address book
 	if(!empty($errors)){
 		foreach ($errors as $message) {
 			echo $message;
