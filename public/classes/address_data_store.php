@@ -4,8 +4,8 @@ class AddressDataStore {
 	
 	public $filename = '';
 
-	function __construct($file = 'data/addressbook.csv') {
-		$this->filename = $file;
+	function __construct($filename = 'data/addressbook.csv') {
+		$this->filename = $filename;
 	}
 
 	function readCSV() {
@@ -26,5 +26,16 @@ class AddressDataStore {
 		fclose($handle);
 	}
 }
+
+class NewAddressData extends AddressDataStore {
+
+	public function __construct($filename = 'data/addressbook.csv') {
+		$filename = strtolower($filename);
+		parent::__construct($filename);
+	}
+}
+
+$addressdata = new NewAddressData('DATA/ADDRESSBOOK.CSV');
+var_dump($addressdata);
 
 ?>
