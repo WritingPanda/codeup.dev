@@ -4,38 +4,53 @@ class Filestore {
 
     public $filename = '';
 
-    function __construct($filename = '') {
+    public function __construct($filename = '') {
         // Sets $this->filename
-        $this->filename = $file;
+        $this->filename = $filename;
     }
 
-    /**
-     * Returns array of lines in $this->filename
-     */
-    function read_lines() {
-
+    // Returns array of lines in $this->filename
+    public function read_lines() {
+        $handle = fopen($this->filename, "r");
+        $size = filesize($this->filename);
+        if ($size == 0) {
+            echo "You don't have any tasks! Nice!";
+            echo "<p>Add some tasks!</p>";
+            return $items = [];
+        }
+        $contents = fread($handle, $size);
+        $contents_array = explode("\n", $contents);
+        fclose($handle);
+        return $contents_array;
     }
 
-    /**
-     * Writes each element in $array to a new line in $this->filename
-     */
-    function write_lines($array) {
-
+    // Writes each element in $array to a new line in $this->filename
+    public function write_lines($array) {
+        $handle = fopen($this->filename, 'w');
+        $contents = implode("\n", $array);
+        fwrite($handle, $contents);
+        fclose($handle);
     }
-
-    /**
-     * Reads contents of csv $this->filename, returns an array
-     */
-    function read_csv() {
-
+    
+    // Reads contents of csv $this->filename, returns an array
+    public function read_csv() {
+        $contents = [];
+        $handle = fopen($this->filename, "r");
+        while(($data = fgetcsv($handle)) !== FALSE) {
+            $contents[] = $data;
+        }
+        fclose($handle);
+        return $contents;
     }
-
-    /**
-     * Writes contents of $array to csv $this->filename
-     */
-    function write_csv($array) {
-
+    
+    // Writes contents of $array to csv $this->filename
+    public function write_csv($array) {
+        $handle = fopen($this->filename, 'w');
+        foreach ($array as $row) {
+            fputcsv($handle, $row);
+        }
+        fclose($handle);
     }
-
 }
+
 ?>
