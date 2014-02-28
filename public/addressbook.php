@@ -42,14 +42,20 @@ if (!empty($_POST)) {
 	<title>Your Address Book</title>
 </head>
 <style>
+body
+{
+	background-color: #043A6B;
+	color: #f8f8fa;
+}
 table
 {
 	width:75%;
 }
 table,th,td
 {
-	border:1px solid black;
+	border:1px solid #f8f8fa;
 	border-collapse:collapse;
+	font-family: helvetica,arial,sans-serif;
 }
 th,td
 {
@@ -58,9 +64,13 @@ th,td
 }
 th
 {
-	background-color: blue;
-	color: white;
+	background-color: #A66100;
+	font-weight: bold;
 }
+a:link {color:#f8f8fa;}    /* unvisited link */
+a:visited {color:#f8f8fa;} /* visited link */
+a:hover {color:#f8f8fa;}   /* mouse over link */
+a:active {color:#f8f8fa;}  /* selected link */
 </style>
 <body>
 	<center><h1>An Address Book</h1>
@@ -161,6 +171,8 @@ th
 			<button type='submit' style='margin-left:14em'>Upload</button>
 		</p>
 	</form>
-	<p style="color:blue;margin-left:20px;font-family:Courier">&copy; 2014 Written by a Panda</p>
+	<footer>
+		<p style="color:#f8f8fa;font-family:Courier">&copy; 2014 <a href="http://writtenbyapanda.tumblr.com" target="_blank">Written by a Panda</a></p>
+	</footer>
 </body>
 </html>
