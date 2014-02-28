@@ -28,6 +28,10 @@ class AddressDataStore {
 		}
 		fclose($handle);
 	}
+
+	function __destruct() {
+		echo "Class dismissed!";
+	}
 }
 
 $adrbook = new AddressDataStore();
@@ -173,6 +177,6 @@ padding:5px;
 		</p>
 	</form>
 	<p style="color:blue;margin-left:20px;">&copy; 2014 Written by a Panda</p>
-
+	<? unset($adrbook); ?>
 </body>
 </html>
