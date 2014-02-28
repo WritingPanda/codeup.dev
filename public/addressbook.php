@@ -3,10 +3,14 @@
 $address_book = array();
 $entries = array();
 
-require_once('classes/address_data_store.php');
+require('classes/filestore.php');
 
-$adrbook = new AddressDataStore();
-$address_book = $adrbook->readCSV();
+class AddressDataStore extends Filestore {
+
+}
+
+$adrbook = new AddressDataStore('data/addressbook.csv');
+$address_book = $adrbook->read_csv();
 $errors = [];
 
 // Error validation
@@ -29,7 +33,7 @@ if (!empty($_POST)) {
 	// If there are no errors, go ahead and save the address book
 	if (empty($errors)) {
 		array_push($address_book, array_values($entries));
-		$adrbook->store_entry($address_book);
+		$adrbook->write_csv($address_book);
 	}
 }
 
@@ -67,10 +71,10 @@ th
 	background-color: #A66100;
 	font-weight: bold;
 }
-a:link {color:#f8f8fa;}    /* unvisited link */
-a:visited {color:#f8f8fa;} /* visited link */
-a:hover {color:#f8f8fa;}   /* mouse over link */
-a:active {color:#f8f8fa;}  /* selected link */
+a:link {color:#f8f8fa;}
+a:visited {color:#f8f8fa;}
+a:hover {color:#f8f8fa;}
+a:active {color:#f8f8fa;}
 </style>
 <body>
 	<center><h1>An Address Book</h1>
@@ -100,7 +104,7 @@ a:active {color:#f8f8fa;}  /* selected link */
 		if (isset($_GET['remove'])) {
 			$key = $_GET['remove'];
 			unset($address_book[$key]);
-			$adrbook->store_entry($address_book);
+			$adrbook->write_csv($address_book);
 			header('Location: addressbook.php');
 			exit(0);
 		}
@@ -112,9 +116,9 @@ a:active {color:#f8f8fa;}  /* selected link */
 			$saved_filename = $upload_dir . $filename;
 			move_uploaded_file($_FILES['upload']['tmp_name'], $saved_filename);
 			// Read and save file to be read in the address book app
-			$newFileArray = $adrbook->readCSV();
+			$newFileArray = $adrbook->read_csv();
 			$combineArray = array_merge($address_book, $newFileArray);
-			$adrbook->store_entry($combineArray);
+			$adrbook->write_csv($combineArray);
 			header('Location: addressbook.php');
 			exit(0);
 		} elseif (count($_FILES) > 0 && $_FILES['upload']['type'] != 'text/csv') {
