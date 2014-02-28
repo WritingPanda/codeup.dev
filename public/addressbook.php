@@ -3,7 +3,7 @@
 $address_book = array();
 $entries = array();
 
-include('classes/address_data_store.php');
+require_once('classes/address_data_store.php');
 
 $adrbook = new AddressDataStore();
 $address_book = $adrbook->readCSV();
@@ -73,7 +73,7 @@ th
 			<th>State</th>
 			<th>Zip</th>
 			<th>Phone</th>
-			<th>Remove link</th>
+			<th>Remove</th>
 		</tr>
 		<?php 
 		// Show entries in address book, stripped of tags and shown via HTML special characters
