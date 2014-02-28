@@ -122,7 +122,7 @@ a:active {color:#f8f8fa;}
 			header('Location: addressbook.php');
 			exit(0);
 		} elseif (count($_FILES) > 0 && $_FILES['upload']['type'] != 'text/csv') {
-			echo "<p><strong>ERROR:</strong> File is not a txt file.</p>";
+			echo "<p><strong>ERROR:</strong> File is not a csv file.</p>";
 		}
 
 		?>
@@ -137,7 +137,7 @@ a:active {color:#f8f8fa;}
 	}
 	?>
 	<center><p>Please fill out the fields to enter a new entry in your address book:</p></center>
-	<form method='POST' enctype='multipart/form-data' action='addressbook.php'>
+	<form method='POST' action='addressbook.php'>
 		<p style='margin-left:10em;'>
 			<label for='name'>Name: </label>
 			<input id='name' name='name' type='text' autofocus='autofocus'>
@@ -166,7 +166,7 @@ a:active {color:#f8f8fa;}
 			<button type='submit' style='margin-left:14em;'>Add Address</button>
 		</p>
 	</form>
-	<form>
+	<form method='POST' enctype='multipart/form-data' action='addressbook.php'>
 		<p style='margin-left:10em;'>
 			<label for='upload'>Upload a CSV to load into the address book: </label>
 			<input id='upload' name='upload' type='file'>
