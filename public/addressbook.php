@@ -3,32 +3,7 @@
 $address_book = array();
 $entries = array();
 
-class AddressDataStore {
-	
-	public $filename = '';
-
-	function __construct($file = 'data/addressbook.csv') {
-		$this->filename = $file;
-	}
-
-	function readCSV() {
-		$contents = [];
-		$handle = fopen($this->filename, "r");
-		while(($data = fgetcsv($handle)) !== FALSE) {
-			$contents[] = $data;
-		}
-    	fclose($handle);
-    	return $contents;
-	}
-
-	function store_entry($rows) {
-		$handle = fopen($this->filename, 'w');
-		foreach ($rows as $row) {
-			fputcsv($handle, $row);
-		}
-		fclose($handle);
-	}
-}
+include('classes/address_data_store.php');
 
 $adrbook = new AddressDataStore();
 $address_book = $adrbook->readCSV();
@@ -66,20 +41,30 @@ if (!empty($_POST)) {
 	<title>Your Address Book</title>
 </head>
 <style>
+table
+{
+	width:75%;
+}
 table,th,td
 {
-border:1px solid black;
-border-collapse:collapse;
+	border:1px solid black;
+	border-collapse:collapse;
 }
 th,td
 {
-padding:5px;
+	padding:5px;
+	vertical-align: middle;
+}
+th
+{
+	background-color: blue;
+	color: white;
 }
 </style>
 <body>
 	<center><h1>An Address Book</h1>
 		<p>Look how popular you are! These are your contacts:</p>
-	<table style='width:800px'>
+	<table>
 		<tr>
 			<th>Name</th>
 			<th>Address</th>
@@ -164,6 +149,8 @@ padding:5px;
 		<p>
 			<button type='submit' style='margin-left:14em;'>Add Address</button>
 		</p>
+	</form>
+	<form>
 		<p style='margin-left:10em;'>
 			<label for='upload'>Upload a CSV to load into the address book: </label>
 			<input id='upload' name='upload' type='file'>
@@ -172,6 +159,6 @@ padding:5px;
 			<button type='submit' style='margin-left:14em'>Upload</button>
 		</p>
 	</form>
-	<p style="color:blue;margin-left:20px;">&copy; 2014 Written by a Panda</p>
+	<p style="color:blue;margin-left:20px;font-family:Courier">&copy; 2014 Written by a Panda</p>
 </body>
 </html>
