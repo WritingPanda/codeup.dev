@@ -3,11 +3,7 @@
 $address_book = array();
 $entries = array();
 
-require('classes/filestore.php');
-
-class AddressDataStore extends Filestore {
-
-}
+require('classes/address_data_store.php');
 
 $adrbook = new AddressDataStore('data/addressbook.csv');
 $address_book = $adrbook->read_csv();
@@ -36,6 +32,34 @@ if (!empty($_POST)) {
 		$adrbook->write_csv($address_book);
 	}
 }
+
+	// Remove item from address book
+	if (isset($_GET['remove'])) {
+		$key = $_GET['remove'];
+		unset($address_book[$key]);
+		$adrbook->write_csv($address_book);
+		header('Location: addressbook.php');
+		exit(0);
+	}
+
+	if (count($_FILES) > 0 && $_FILES['upload']['error'] == 0 && $_FILES['upload']['type'] == 'text/csv') {
+		// Receive upload and store it in a folder
+		$upload_dir = '/vagrant/sites/codeup.dev/public/uploads/';
+		$filename = basename($_FILES['upload']['name']);
+		$saved_filename = $upload_dir . $filename;
+		move_uploaded_file($_FILES['upload']['tmp_name'], $saved_filename);
+		// Read and save file to be read in the address book app
+		$adrbook->filename = 'uploads/addressbooksample.csv';
+		$newFileArray = $adrbook->read_csv();
+		$combineArray = array_merge($address_book, $newFileArray);
+		$adrbook->write_csv($combineArray);
+		header('Location: addressbook.php');
+		$adrbook->filename = 'data/addressbook.csv';
+		exit(0);
+	} elseif (count($_FILES) > 0 && $_FILES['upload']['type'] != 'text/csv') {
+		echo "<p><strong>ERROR:</strong> File is not a csv file.</p>";
+	}
+
 
 ?>
 
@@ -100,30 +124,6 @@ a:active {color:#f8f8fa;}
 
 		}
 		echo "</tr>";
-		// Remove item from address book
-		if (isset($_GET['remove'])) {
-			$key = $_GET['remove'];
-			unset($address_book[$key]);
-			$adrbook->write_csv($address_book);
-			header('Location: addressbook.php');
-			exit(0);
-		}
-
-		if (count($_FILES) > 0 && $_FILES['upload']['error'] == 0 && $_FILES['upload']['type'] == 'text/csv') {
-			// Receive upload and store it in a folder
-			$upload_dir = '/vagrant/sites/codeup.dev/public/uploads/';
-			$filename = basename($_FILES['upload']['name']);
-			$saved_filename = $upload_dir . $filename;
-			move_uploaded_file($_FILES['upload']['tmp_name'], $saved_filename);
-			// Read and save file to be read in the address book app
-			$newFileArray = $adrbook->read_csv();
-			$combineArray = array_merge($address_book, $newFileArray);
-			$adrbook->write_csv($combineArray);
-			header('Location: addressbook.php');
-			exit(0);
-		} elseif (count($_FILES) > 0 && $_FILES['upload']['type'] != 'text/csv') {
-			echo "<p><strong>ERROR:</strong> File is not a csv file.</p>";
-		}
 
 		?>
 	</table></center>
