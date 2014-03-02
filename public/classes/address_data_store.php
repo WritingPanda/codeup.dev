@@ -10,7 +10,7 @@ class AddressDataStore extends Filestore {
 	// 	$this->filename = $filename;
 	// }
 
-	// function readCSV() {
+	// function read_csv() {
 	// 	$contents = [];
 	// 	$handle = fopen($this->filename, "r");
 	// 	while(($data = fgetcsv($handle)) !== FALSE) {
@@ -20,9 +20,9 @@ class AddressDataStore extends Filestore {
  //    	return $contents;
 	// }
 
-	// function store_entry($rows) {
+	// function write_csv($array) {
 	// 	$handle = fopen($this->filename, 'w');
-	// 	foreach ($rows as $row) {
+	// 	foreach ($array as $row) {
 	// 		fputcsv($handle, $row);
 	// 	}
 	// 	fclose($handle);

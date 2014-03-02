@@ -49,12 +49,15 @@ if (!empty($_POST)) {
 		$saved_filename = $upload_dir . $filename;
 		move_uploaded_file($_FILES['upload']['tmp_name'], $saved_filename);
 		// Read and save uploaded file to be read in the address book app
-		$adrbook->filename = 'uploads/addressbooksample.csv';
+		$adrbook->filename = $saved_filename;
 		$newFileArray = $adrbook->read_csv();
+var_dump($newFileArray);
 		$combineArray = array_merge($address_book, $newFileArray);
+var_dump($combineArray);
 		$adrbook->write_csv($combineArray);
 		header('Location: addressbook.php');
 		$adrbook->filename = 'data/addressbook.csv';
+var_dump($filename);
 		exit(0);
 	} elseif (count($_FILES) > 0 && $_FILES['upload']['type'] != 'text/csv') {
 		echo "<p><strong>ERROR:</strong> File is not a csv file.</p>";
@@ -102,7 +105,7 @@ a:active {color:#f8f8fa;}
 </style>
 <body>
 	<center><h1>An Address Book</h1>
-		<p>Look how popular you are! These are your contacts:</p>
+		<p>Your contacts:</p>
 	<table>
 		<tr>
 			<th>Name</th>
