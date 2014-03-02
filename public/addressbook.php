@@ -48,7 +48,7 @@ if (!empty($_POST)) {
 		$filename = basename($_FILES['upload']['name']);
 		$saved_filename = $upload_dir . $filename;
 		move_uploaded_file($_FILES['upload']['tmp_name'], $saved_filename);
-		// Read and save file to be read in the address book app
+		// Read and save uploaded file to be read in the address book app
 		$adrbook->filename = 'uploads/addressbooksample.csv';
 		$newFileArray = $adrbook->read_csv();
 		$combineArray = array_merge($address_book, $newFileArray);
