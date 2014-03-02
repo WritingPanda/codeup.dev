@@ -3,7 +3,19 @@
 require('classes/filestore.php');
 
 class TodoDataStore extends Filestore {
-
+	public function read_lines() {
+        $handle = fopen($this->filename, "r");
+        $size = filesize($this->filename);
+        if ($size == 0) {
+            echo "You don't have any tasks! Nice!";
+            echo "<p>Add some tasks!</p>";
+            return $items = [];
+        }
+        $contents = fread($handle, $size);
+        $contents_array = explode("\n", $contents);
+        fclose($handle);
+        return $contents_array;
+    }
 }
 
 $todo = new TodoDataStore('data/todo_list.txt');
