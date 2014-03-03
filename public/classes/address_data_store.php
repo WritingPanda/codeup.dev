@@ -1,8 +1,9 @@
 <?php
 
-require('classes/filestore.php');
+// require('classes/filestore.php');
+// extends Filestore
 
-class AddressDataStore extends Filestore {
+class AddressDataStore {
 	
 	public $filename = '';
 
