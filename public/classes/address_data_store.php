@@ -1,44 +1,43 @@
 <?php
 
-// require('classes/filestore.php');
-// extends Filestore
+require('classes/filestore.php');
 
-class AddressDataStore {
+class AddressDataStore extends Filestore {
 	
-	public $filename = '';
+// 	public $filename = '';
 
-	function __construct($filename = 'data/addressbook.csv') {
-		$this->filename = $filename;
-	}
+// 	function __construct($filename = 'data/addressbook.csv') {
+// 		$this->filename = $filename;
+// 	}
 
-	function read_csv() {
-		$contents = [];
-		$handle = fopen($this->filename, "r");
-		while(($data = fgetcsv($handle)) !== FALSE) {
-			$contents[] = $data;
-		}
-    	fclose($handle);
-    	return $contents;
-	}
+// 	function read_csv() {
+// 		$contents = [];
+// 		$handle = fopen($this->filename, "r");
+// 		while(($data = fgetcsv($handle)) !== FALSE) {
+// 			$contents[] = $data;
+// 		}
+//     	fclose($handle);
+//     	return $contents;
+// 	}
 
-	function write_csv($array) {
-		$handle = fopen($this->filename, 'w');
-		foreach ($array as $row) {
-			fputcsv($handle, $row);
-		}
-		fclose($handle);
-	}
+// 	function write_csv($array) {
+// 		$handle = fopen($this->filename, 'w');
+// 		foreach ($array as $row) {
+// 			fputcsv($handle, $row);
+// 		}
+// 		fclose($handle);
+// 	}
+// }
+
+// class NewAddressData extends AddressDataStore {
+
+// 	public function __construct($filename = '') {
+// 		$filename = strtolower($filename);
+// 		parent::__construct($filename);
+// 	}
 }
 
-class NewAddressData extends AddressDataStore {
-
-	public function __construct($filename = '') {
-		$filename = strtolower($filename);
-		parent::__construct($filename);
-	}
-}
-
-$addressdata = new NewAddressData('DATA/ADDRESSBOOK.CSV');
-var_dump($addressdata);
+// $addressdata = new NewAddressData('DATA/ADDRESSBOOK.CSV');
+// var_dump($addressdata);
 
 ?>
