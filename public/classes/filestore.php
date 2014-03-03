@@ -1,11 +1,11 @@
 <?php
 
 class Filestore {
-
+    // Declare public property
     public $filename = '';
 
+    // Sets the filename as soon as a new instance is instatiated
     public function __construct($filename = '') {
-        // Sets $this->filename
         $this->filename = $filename;
     }
 
