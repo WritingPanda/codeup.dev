@@ -20,14 +20,18 @@ if (!empty($_POST)) {
 	$entry['phone'] = $_POST['phone'];
 	// Organizing error messages
 	foreach ($entry as $key => $value) {
-		if (empty($value)) {
-			$errors[] = "<p><center><h2><font color='red'>" . ucfirst($key) . " is not found.</font></h2></center></p>";
-			throw new Exception("$key value is empty. Please fill it.");
-		} else {
-			$entries[] = $value;
-		}
-		if (strlen($value) > 125) {
-			throw new Exception("$key value is greater than 125 characters.");
+		try{
+			if (empty($value)) {
+				$errors[] = "<p><center><h2><font color='red'>" . ucfirst($key) . " is not found.</font></h2></center></p>";
+				throw new Exception("$key value is empty. Please fill it.");
+			} else {
+				$entries[] = $value;
+			}
+			if (strlen($value) > 125) {
+				throw new Exception("$key value is greater than 125 characters.");
+			}
+		} catch (Exception $e) {
+			echo $e;
 		}
 	}
 	// If there are no errors, go ahead and save the address book
