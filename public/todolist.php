@@ -41,6 +41,14 @@ if (count($_FILES) > 0 && $_FILES['upload']['error'] == 0 && $_FILES['upload']['
 
 		$items = $todo->read();
 
+		if (isset($_POST['newitem']) && empty($_POST['newitem'])) {
+			throw new Exception('No tasks were entered in the todo list.');
+		}
+
+		if (isset($_POST['newitem']) && strlen($_POST['newitem']) > 240) {
+			throw new Exception('Task is longer than 240 characters.');
+		}
+
 		if (!empty($_POST['newitem'])) {
 			$newItem = $_POST['newitem'];
 			array_push($items, $newItem);
