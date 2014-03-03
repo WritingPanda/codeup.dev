@@ -9,18 +9,18 @@ $adrbook = new AddressDataStore('data/addressbook.csv');
 $address_book = $adrbook->read();
 $errors = [];
 
-// Error validation
-if (!empty($_POST)) {
-	$entry = [];
-	$entry['name'] = $_POST['name'];
-	$entry['address'] = $_POST['address'];
-	$entry['city'] = $_POST['city'];
-	$entry['state'] = $_POST['state'];
-	$entry['zip'] = $_POST['zip'];
-	$entry['phone'] = $_POST['phone'];
-	// Organizing error messages
-	foreach ($entry as $key => $value) {
-		try{
+try{
+	// Error validation
+	if (!empty($_POST)) {
+		$entry = [];
+		$entry['name'] = $_POST['name'];
+		$entry['address'] = $_POST['address'];
+		$entry['city'] = $_POST['city'];
+		$entry['state'] = $_POST['state'];
+		$entry['zip'] = $_POST['zip'];
+		$entry['phone'] = $_POST['phone'];
+		// Organizing error messages
+		foreach ($entry as $key => $value) {
 			if (empty($value)) {
 				$errors[] = "<p><center><h2><font color='red'>" . ucfirst($key) . " is not found.</font></h2></center></p>";
 				throw new Exception("$key value is empty. Please fill it.");
@@ -30,15 +30,15 @@ if (!empty($_POST)) {
 			if (strlen($value) > 125) {
 				throw new Exception("$key value is greater than 125 characters.");
 			}
-		} catch (Exception $e) {
-			echo $e;
 		}
-	}
-	// If there are no errors, go ahead and save the address book
-	if (empty($errors)) {
-		array_push($address_book, array_values($entries));
-		$adrbook->write($address_book);
-	}
+		// If there are no errors, go ahead and save the address book
+		if (empty($errors)) {
+			array_push($address_book, array_values($entries));
+			$adrbook->write($address_book);
+		}
+	} 
+} catch (Exception $e) {
+	echo "<font color='red'><h2>" . ucfirst($key) . " was not entered. Please enter your " . $key . ". Thanks, brah.</h2></font>";
 }
 
 	// Remove item from address book
