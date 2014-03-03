@@ -1,6 +1,6 @@
 <?php
 
-require('classes/filestore.php');
+require_once('classes/filestore.php');
 
 class AddressDataStore extends Filestore {
 	// Sets filename to all lowercase

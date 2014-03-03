@@ -1,21 +1,17 @@
 <?php
 
-require('classes/filestore.php');
+require_once('classes/filestore.php');
 
 class TodoDataStore extends Filestore {
 	public function read_lines() {
-        $handle = fopen($this->filename, "r");
-        $size = filesize($this->filename);
+		$size = filesize($this->filename);
         if ($size == 0) {
-            echo "You don't have any tasks! Nice!";
+            echo "<p>You don't have any tasks! Nice!</p>";
             echo "<p>Add some tasks!</p>";
             return $items = [];
         }
-        $contents = fread($handle, $size);
-        $contents_array = explode("\n", $contents);
-        fclose($handle);
-        return $contents_array;
-    }
+        return parent::read_lines();
+	}
 }
 
 $todo = new TodoDataStore('data/todo_list.txt');
@@ -43,22 +39,22 @@ if (count($_FILES) > 0 && $_FILES['upload']['error'] == 0 && $_FILES['upload']['
 	<ul>
 		<?php 
 
-		$items = $todo->read_lines();
+		$items = $todo->read();
 
 		if (!empty($_POST['newitem'])) {
 			$newItem = $_POST['newitem'];
 			array_push($items, $newItem);
-			$todo->write_lines($items);
+			$todo->write($items);
 			header('Location: todolist.php');
 			exit(0);
 		}
 
 		if (!empty($_FILES['upload']) && $_FILES['upload']['type'] == 'text/plain') {
 			$todo->filename = "/vagrant/sites/codeup.dev/public/uploads/{$Newfilename}";
-			$newFileArray = $todo->read_lines();
+			$newFileArray = $todo->read();
 			$combineArray = array_merge($items, $newFileArray);
 			$todo->filename = 'data/todo_list.txt';
-			$todo->write_lines($combineArray);
+			$todo->write($combineArray);
 			header('Location: todolist.php');
 			exit(0);
 		} elseif (count($_FILES) > 0 && $_FILES['upload']['type'] != 'text/plain') {
@@ -73,7 +69,7 @@ if (count($_FILES) > 0 && $_FILES['upload']['error'] == 0 && $_FILES['upload']['
 		if (isset($_GET['remove'])) {
 			$key = $_GET['remove'];
 			unset($items[$key]);
-			$todo->write_lines($items);
+			$todo->write($items);
 			header('Location: todolist.php');
 			exit(0);
 		}

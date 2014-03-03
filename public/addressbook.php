@@ -3,10 +3,10 @@
 $address_book = array();
 $entries = array();
 
-require('classes/address_data_store.php');
+require_once('classes/address_data_store.php');
 
 $adrbook = new AddressDataStore('data/addressbook.csv');
-$address_book = $adrbook->read_csv();
+$address_book = $adrbook->read();
 $errors = [];
 
 // Error validation
@@ -29,7 +29,7 @@ if (!empty($_POST)) {
 	// If there are no errors, go ahead and save the address book
 	if (empty($errors)) {
 		array_push($address_book, array_values($entries));
-		$adrbook->write_csv($address_book);
+		$adrbook->write($address_book);
 	}
 }
 
@@ -37,7 +37,7 @@ if (!empty($_POST)) {
 	if (isset($_GET['remove'])) {
 		$key = $_GET['remove'];
 		unset($address_book[$key]);
-		$adrbook->write_csv($address_book);
+		$adrbook->write($address_book);
 		header('Location: addressbook.php');
 		exit(0);
 	}
@@ -50,10 +50,10 @@ if (!empty($_POST)) {
 		move_uploaded_file($_FILES['upload']['tmp_name'], $saved_filename);
 		// Read and save uploaded file to be read in the address book app
 		$adrbook->filename = $saved_filename;
-		$newFileArray = $adrbook->read_csv();
+		$newFileArray = $adrbook->read();
 		$combineArray = array_merge($address_book, $newFileArray);
 		$adrbook->filename = 'data/addressbook.csv';
-		$adrbook->write_csv($combineArray);
+		$adrbook->write($combineArray);
 		header('Location: addressbook.php');
 		exit(0);
 	} elseif (count($_FILES) > 0 && $_FILES['upload']['type'] != 'text/csv') {
