@@ -22,8 +22,12 @@ if (!empty($_POST)) {
 	foreach ($entry as $key => $value) {
 		if (empty($value)) {
 			$errors[] = "<p><center><h2><font color='red'>" . ucfirst($key) . " is not found.</font></h2></center></p>";
+			throw new Exception("$key value is empty. Please fill it.");
 		} else {
 			$entries[] = $value;
+		}
+		if (strlen($value) > 125) {
+			throw new Exception("$key value is greater than 125 characters.");
 		}
 	}
 	// If there are no errors, go ahead and save the address book
