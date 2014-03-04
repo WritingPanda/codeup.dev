@@ -75,10 +75,10 @@ $errors = [];
 <html>
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" href="/resources/addressbookstyle.css">
+	<link href='http://fonts.googleapis.com/css?family=Coda+Caption:800|Bubbler+One' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="/resources/todoaddressbkstyle.css" type='text/css'>
 	<title>Your Address Book</title>
 </head>
-
 <body>
 	<center><h1>An Address Book</h1>
 		<p>Your contacts:</p>
