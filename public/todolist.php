@@ -31,6 +31,7 @@ if (count($_FILES) > 0 && $_FILES['upload']['error'] == 0 && $_FILES['upload']['
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" href="/resources/addressbookstyle.css">
 	<title>Todo List</title>
 </head>
 <body>
@@ -57,7 +58,7 @@ if (count($_FILES) > 0 && $_FILES['upload']['error'] == 0 && $_FILES['upload']['
 				header('Location: todolist.php');
 				exit(0);
 			}
-		} catch (Exception $e) {
+		} catch (InvalidInputException $e) {
 			echo $e->getMessage();
 		}
 
@@ -107,7 +108,7 @@ if (count($_FILES) > 0 && $_FILES['upload']['error'] == 0 && $_FILES['upload']['
 
 	</form>
 	<footer>
-		<p style="color:blue;font-family:Courier">&copy; 2014 <a href="http://writtenbyapanda.tumblr.com" target="_blank">Written by a Panda</a></p>
+		<p style="font-family:Courier">&copy; 2014 <a href="http://writtenbyapanda.tumblr.com" target="_blank">Written by a Panda</a></p>
 	</footer>
 </body>
 </html>
