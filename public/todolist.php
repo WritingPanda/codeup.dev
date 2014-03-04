@@ -2,6 +2,8 @@
 
 require_once('classes/filestore.php');
 
+class InvalidInputException extends Exception {}
+
 class TodoDataStore extends Filestore {
 	public function read_lines() {
 		$size = filesize($this->filename);
@@ -42,11 +44,11 @@ if (count($_FILES) > 0 && $_FILES['upload']['error'] == 0 && $_FILES['upload']['
 		$items = $todo->read();
 		try{
 			if (isset($_POST['newitem']) && empty($_POST['newitem'])) {
-				throw new Exception('No tasks were entered in the todo list.');
+				throw new InvalidInputException('No tasks were entered in the todo list. <strong>Please enter a task.</strong>');
 			}
 
 			if (isset($_POST['newitem']) && strlen($_POST['newitem']) > 240) {
-				throw new Exception('Task is longer than 240 characters.');
+				throw new InvalidInputException('Task is longer than 240 characters. <strong>Please make it shorter.</strong>');
 			}
 			if (!empty($_POST['newitem'])) {
 				$newItem = $_POST['newitem'];
@@ -56,7 +58,7 @@ if (count($_FILES) > 0 && $_FILES['upload']['error'] == 0 && $_FILES['upload']['
 				exit(0);
 			}
 		} catch (Exception $e) {
-			echo $e;
+			echo $e->getMessage();
 		}
 
 		if (!empty($_FILES['upload']) && $_FILES['upload']['type'] == 'text/plain') {
