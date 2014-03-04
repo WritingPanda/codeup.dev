@@ -6,12 +6,17 @@ body
 
 h1
 {
-	font-family: "Source Code Pro",helvetica,arial,sans-serif;
+	font-family: "Coda Caption","Source Code Pro",helvetica,arial,sans-serif;
 }
 
 p
 {
-	font-family: "Source Code Pro",helvetica,arial,sans-serif;
+	font-family: "Bubbler One","Source Code Pro",helvetica,arial,sans-serif;
+}
+
+ul
+{
+	font-family: "Source Code Pro",sans-serif;
 }
 
 table
@@ -23,7 +28,6 @@ table,th,td
 {
 	border:1px solid #f8f8fa;
 	border-collapse:collapse;
-	font-family: "Source Code Pro",helvetica,arial,sans-serif;
 }
 
 th,td
@@ -32,10 +36,16 @@ th,td
 	vertical-align: middle;
 }
 
+td
+{
+	font-family: "Source Code Pro",helvetica,arial,sans-serif;
+}
+
 th
 {
 	background-color: #A66100;
 	font-weight: bold;
+	font-family: "Coda Caption";
 }
 
 a:link 
