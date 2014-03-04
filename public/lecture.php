@@ -20,7 +20,17 @@ class Conversation {
     function say_goodbye() {
         return "Goodbye, {$this->name} {$this->lastname}!";
     }
+
+    // Allow name to be set on instantiation
+    function __construct($name = '') {
+        $this->name = $name;
+    }
+
+    function __destruct() {
+        echo "Goodbye, {$this->name}\n";
+    }
 }
+
 ?>
 <!doctype html>
 <html>
@@ -30,19 +40,8 @@ class Conversation {
 <body>
 <?php 
 
-// Create a new instance of Conversation
-$chat = new Conversation();
+$conversation = new Conversation();
 
-// Set the $name variable
-$chat->name = 'Omar';
-$chat->lastname = 'Quimbaya';
-
-// Output greeting to $name
-echo $chat->say_hello(FALSE);
-
-echo $chat->say_hello(TRUE);
-
-echo $chat->say_goodbye();
 
 ?>
 </body>
