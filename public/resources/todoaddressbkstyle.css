@@ -1,0 +1,59 @@
+body
+{
+	background-color: #043A6B;
+	color: #f8f8fa;
+}
+
+h1
+{
+	font-family: "Source Code Pro",helvetica,arial,sans-serif;
+}
+
+p
+{
+	font-family: "Source Code Pro",helvetica,arial,sans-serif;
+}
+
+table
+{
+	width:75%;
+}
+
+table,th,td
+{
+	border:1px solid #f8f8fa;
+	border-collapse:collapse;
+	font-family: "Source Code Pro",helvetica,arial,sans-serif;
+}
+
+th,td
+{
+	padding:5px;
+	vertical-align: middle;
+}
+
+th
+{
+	background-color: #A66100;
+	font-weight: bold;
+}
+
+a:link 
+{
+	color:#f8f8fa;
+}
+
+a:visited 
+{
+	color:#f8f8fa;
+}
+
+a:hover 
+{
+	color:#f8f8fa;
+}
+
+a:active 
+{
+	color:#f8f8fa;
+}
