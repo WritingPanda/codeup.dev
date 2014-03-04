@@ -31,7 +31,8 @@ if (count($_FILES) > 0 && $_FILES['upload']['error'] == 0 && $_FILES['upload']['
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" href="/resources/addressbookstyle.css">
+	<link rel="stylesheet" href="/resources/todoaddressbkstyle.css" type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Coda+Caption:800|Bubbler+One' rel='stylesheet' type='text/css'>
 	<title>Todo List</title>
 </head>
 <body>
