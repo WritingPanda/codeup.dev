@@ -5,41 +5,44 @@ $entries = array();
 
 require_once('classes/address_data_store.php');
 
+class InvalidInputException extends Exception {}
+
 $adrbook = new AddressDataStore('data/addressbook.csv');
 $address_book = $adrbook->read();
 $errors = [];
 
-try{
-	// Error validation
-	if (!empty($_POST)) {
-		$entry = [];
-		$entry['name'] = $_POST['name'];
-		$entry['address'] = $_POST['address'];
-		$entry['city'] = $_POST['city'];
-		$entry['state'] = $_POST['state'];
-		$entry['zip'] = $_POST['zip'];
-		$entry['phone'] = $_POST['phone'];
-		// Organizing error messages
-		foreach ($entry as $key => $value) {
-			if (empty($value)) {
-				$errors[] = "<p><center><h2><font color='red'>" . ucfirst($key) . " is not found.</font></h2></center></p>";
-				throw new Exception("$key value is empty. Please fill it.");
-			} else {
-				$entries[] = $value;
-			}
-			if (strlen($value) > 125) {
-				throw new Exception("$key value is greater than 125 characters.");
-			}
-		}
-		// If there are no errors, go ahead and save the address book
-		if (empty($errors)) {
-			array_push($address_book, array_values($entries));
-			$adrbook->write($address_book);
-		}
-	} 
-} catch (Exception $e) {
-	echo "<font color='red'><h2>" . ucfirst($key) . " was not entered. Please enter your " . $key . ". Thanks, brah.</h2></font>";
-}
+	try {
+		// Error validation
+		if (!empty($_POST)) {
+			$entry = [];
+			$entry['name'] = $_POST['name'];
+			$entry['address'] = $_POST['address'];
+			$entry['city'] = $_POST['city'];
+			$entry['state'] = $_POST['state'];
+			$entry['zip'] = $_POST['zip'];
+			$entry['phone'] = $_POST['phone'];
+			// Organizing error messages
+			foreach ($entry as $key => $value) {
+				if (empty($value)) {
+					$errors[] = "<p><center><h2><font color='red'>" . ucfirst($key) . " is not found.</font></h2></center></p>";
+					throw new InvalidInputException("<h2><font color='red'>" . ucfirst($key) . " value is empty. Please try again.</font></h2>");
+				} else {
+					$entries[] = $value;
+				}
+				if (strlen($value) > 125) {
+					throw new InvalidInputException("<h2><font color='red'>" . ucfirst($key) . " value is greater than 125 characters. Please try again.</font></h2>");
+				}
+				// If there are no errors, go ahead and save the address book
+				if (empty($errors)) {
+					array_push($address_book, array_values($entries));
+					$adrbook->write($address_book);
+				}
+			} 
+		} 
+	} catch (InvalidInputException $e) {
+		echo $e->getMessage();
+	}
+
 
 	// Remove item from address book
 	if (isset($_GET['remove'])) {
@@ -65,46 +68,17 @@ try{
 		header('Location: addressbook.php');
 		exit(0);
 	} elseif (count($_FILES) > 0 && $_FILES['upload']['type'] != 'text/csv') {
-		echo "<p><strong>ERROR:</strong> File is not a csv file.</p>";
+		echo "<p><h2><font color='red'><strong>ERROR:</strong> File is not a csv file.</font></h2></p>";
 	}
 ?>
 <!doctype html>
-<html lang="en">
+<html>
 <head>
 	<meta charset="UTF-8">
+	<link rel="stylesheet" href="/resources/addressbookstyle.css">
 	<title>Your Address Book</title>
 </head>
-<style>
-body
-{
-	background-color: #043A6B;
-	color: #f8f8fa;
-}
-table
-{
-	width:75%;
-}
-table,th,td
-{
-	border:1px solid #f8f8fa;
-	border-collapse:collapse;
-	font-family: helvetica,arial,sans-serif;
-}
-th,td
-{
-	padding:5px;
-	vertical-align: middle;
-}
-th
-{
-	background-color: #A66100;
-	font-weight: bold;
-}
-a:link {color:#f8f8fa;}
-a:visited {color:#f8f8fa;}
-a:hover {color:#f8f8fa;}
-a:active {color:#f8f8fa;}
-</style>
+
 <body>
 	<center><h1>An Address Book</h1>
 		<p>Your contacts:</p>
@@ -132,15 +106,6 @@ a:active {color:#f8f8fa;}
 
 		?>
 	</table></center>
-	
-	<?php
-	// Show error message below address book
-	if(!empty($errors)){
-		foreach ($errors as $message) {
-			echo $message;
-		}
-	}
-	?>
 	<center><p>Please fill out the fields to enter a new entry in your address book:</p></center>
 	<form method='POST' action='addressbook.php'>
 		<p style='margin-left:10em;'>
