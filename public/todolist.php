@@ -31,14 +31,16 @@ if (count($_FILES) > 0 && $_FILES['upload']['error'] == 0 && $_FILES['upload']['
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" href="/resources/todoaddressbkstyle.css" type='text/css'>
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="/css/todoaddressbkstyle.css" type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Coda+Caption:800|Bubbler+One' rel='stylesheet' type='text/css'>
 	<title>Todo List</title>
 </head>
 <body>
 	<h1>TODO List</h1>
-	<img src='img/do-all-things.png' width=200 height=150>
-
+	<img src='img/do-all-things.png' width=200 height=150 class='img-rounded'>
+	<br><br>
 	<form method='POST' action='todolist.php'>
 	<ul>
 		<?php 
@@ -95,7 +97,7 @@ if (count($_FILES) > 0 && $_FILES['upload']['error'] == 0 && $_FILES['upload']['
 			<input id='newitem' name='newitem' type='text' placeholder='Enter task' autofocus='autofocus'>
 		</p>
 		<p>
-			<button type='submit'>Add todo</button>
+			<button class="btn btn-primary" type="submit">Add todo</button>
 		</p>
 	</form>
 	<form method='POST' enctype='multipart/form-data' action='todolist.php'>
@@ -104,7 +106,7 @@ if (count($_FILES) > 0 && $_FILES['upload']['error'] == 0 && $_FILES['upload']['
 			<input id='upload' name='upload' type='file'>
 		</p>
 		<p>
-			<button type='submit'>Upload</button>
+			<button class="btn btn-default btn-lg" type="submit">Upload</button>
 		</p>
 
 	</form>
