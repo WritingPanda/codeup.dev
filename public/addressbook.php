@@ -76,7 +76,7 @@ $errors = [];
 <head>
 	<meta charset="UTF-8">
 	<link href='http://fonts.googleapis.com/css?family=Coda+Caption:800|Bubbler+One' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" href="/resources/todoaddressbkstyle.css" type='text/css'>
+	<link rel="stylesheet" href="/css/todoaddressbkstyle.css" type='text/css'>
 	<title>Your Address Book</title>
 </head>
 <body>
