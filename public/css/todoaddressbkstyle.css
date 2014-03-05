@@ -1,69 +1,56 @@
-body
-{
+body {
 	background-color: #043A6B;
 	color: #f8f8fa;
 }
 
-h1
-{
+h1 {
 	font-family: "Coda Caption","Source Code Pro",helvetica,arial,sans-serif;
 }
 
-p
-{
+p {
 	font-family: helvetica,arial,sans-serif;
 }
 
-ul
-{
+ul {
 	font-family: "Source Code Pro",sans-serif;
 }
 
-table
-{
+table {
 	width:75%;
 }
 
-table,th,td
-{
+table,th,td {
 	border:1px solid #f8f8fa;
 	border-collapse:collapse;
 }
 
-th,td
-{
+th,td {
 	padding:5px;
 	vertical-align: middle;
 }
 
-td
-{
+td {
 	font-family: "Source Code Pro",helvetica,arial,sans-serif;
 }
 
-th
-{
+th {
 	background-color: #A66100;
 	font-weight: bold;
 	font-family: "Coda Caption";
 }
 
-a:link 
-{
+a:link {
 	color:#f8f8fa;
 }
 
-a:visited 
-{
+a:visited {
 	color:#f8f8fa;
 }
 
-a:hover 
-{
+a:hover {
 	color:#f8f8fa;
 }
 
-a:active 
-{
+a:active {
 	color:#f8f8fa;
 }
