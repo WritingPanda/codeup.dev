@@ -5,43 +5,38 @@ $entries = array();
 
 require_once('classes/address_data_store.php');
 
+// When you return to the code, make sure you use this wisely and test thoroughly
 class InvalidInputException extends Exception {}
 
 $adrbook = new AddressDataStore('data/addressbook.csv');
 $address_book = $adrbook->read();
 $errors = [];
 
-	try {
-		// Error validation
-		if (!empty($_POST)) {
-			$entry = [];
-			$entry['name'] = $_POST['name'];
-			$entry['address'] = $_POST['address'];
-			$entry['city'] = $_POST['city'];
-			$entry['state'] = $_POST['state'];
-			$entry['zip'] = $_POST['zip'];
-			$entry['phone'] = $_POST['phone'];
-			// Organizing error messages
-			foreach ($entry as $key => $value) {
-				if (empty($value)) {
-					$errors[] = "<p><center><h2><font color='red'>" . ucfirst($key) . " is not found.</font></h2></center></p>";
-					throw new InvalidInputException("<h2><font color='red'>" . ucfirst($key) . " value is empty. Please try again.</font></h2>");
-				} else {
-					$entries[] = $value;
-				}
-				if (strlen($value) > 125) {
-					throw new InvalidInputException("<h2><font color='red'>" . ucfirst($key) . " value is greater than 125 characters. Please try again.</font></h2>");
-				}
-				// If there are no errors, go ahead and save the address book
-				if (empty($errors)) {
-					array_push($address_book, array_values($entries));
-					$adrbook->write($address_book);
-				}
-			} 
-		} 
-	} catch (InvalidInputException $e) {
-		echo $e->getMessage();
+// Error validation
+if (!empty($_POST)) {
+	$entry = [];
+	$entry['name'] = $_POST['name'];
+	$entry['address'] = $_POST['address'];
+	$entry['city'] = $_POST['city'];
+	$entry['state'] = $_POST['state'];
+	$entry['zip'] = $_POST['zip'];
+	$entry['phone'] = $_POST['phone'];
+	
+	// Organizing error messages
+	foreach ($entry as $key => $value) {
+		if (empty($value)) {
+			$errors[] = "<p><center><h2><font color='red'>" . ucfirst($key) . " is not found.</font></h2></center></p>";
+		} else {
+			$entries[] = $value;
+		}
 	}
+	// If there are no errors, go ahead and save the address book
+	if (empty($errors)) {
+		array_push($address_book, array_values($entries));
+		$adrbook->write($address_book);
+	}
+} 
+
 
 
 	// Remove item from address book
