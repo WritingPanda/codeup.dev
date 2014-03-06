@@ -34,7 +34,7 @@ if (count($_FILES) > 0 && $_FILES['upload']['error'] == 0 && $_FILES['upload']['
 	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
 	<link rel="stylesheet" href="/css/todostyle.css" type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=Coda+Caption:800|Bubbler+One' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans|Oxygen|Roboto+Slab' rel='stylesheet' type='text/css'>
 	<title>Todo List</title>
 </head>
 <body>
@@ -97,11 +97,10 @@ if (count($_FILES) > 0 && $_FILES['upload']['error'] == 0 && $_FILES['upload']['
 			?>
 		</ul>
 		<br>
-			<p>
-				<label for='newitem'>Task: </label>
-				<input id='newitem' name='newitem' type='text' placeholder='Enter task' autofocus='autofocus'>
-			</p>
-			<br>
+				<p>
+					<label for='newitem'>Task: </label>
+					<input id='newitem' name='newitem' type='text' placeholder='Enter task' autofocus='autofocus'>
+				</p>
 			<p>
 				<button class="btn btn-primary" type="submit">Add todo</button>
 			</p>
@@ -122,7 +121,7 @@ if (count($_FILES) > 0 && $_FILES['upload']['error'] == 0 && $_FILES['upload']['
 	</div>
 	<div>
 		<footer>
-			<p style="font-family:Courier">&copy; 2014 <a href="http://writtenbyapanda.tumblr.com" target="_blank">Written by a Panda</a></p>
+			<p style="font-family:Courier">&copy; 2014 <a class='trademark' href="http://writtenbyapanda.tumblr.com" target="_blank">Written by a Panda</a></p>
 		</footer>
 	</div>
 </body>
