@@ -1,9 +1,10 @@
 h1 {
-	font-style: underline;
+	text-decoration: underline;
+	font-size: 3.5em;
 }
 
 body {
-	background-color: #191C70;
+	background-color: #161840;
 	color: #F0E8E5;
 	font-family: sans-serif;
 }
@@ -12,6 +13,33 @@ ul {
 	list-style: decimal-leading-zero;
 }
 
+div {
+	position: relative;
+	margin-left: 200px;
+}
+
+.newitem {
+	font-size: 1.5em;
+}
+
 .upload {
-	
+	font-size: 1.5em;
+}
+
+input, textarea {
+	background-color: #161840;
+}
+
+a:hover {
+	color: #DEAF0B;
+}
+
+.trademark {
+	font-family: 'Roboto Slab', serif;
+	font-size: 1em;
+}
+
+img {
+	border-image: 1px solid black;
+	margin-left: 10px;
 }
