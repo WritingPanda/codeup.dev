@@ -34,12 +34,18 @@ a:hover {
 	color: #DEAF0B;
 }
 
+a:active {
+	color: #F0E8E5;
+}
+
 .trademark {
 	font-family: 'Roboto Slab', serif;
 	font-size: 1em;
 }
 
-img {
-	border-image: 1px solid black;
+img:hover {
+	border: 1px solid black;
 	margin-left: 10px;
+	transform: rotateY(180deg);
+	-webkit-transform:rotateY(180deg);
 }
