@@ -40,7 +40,7 @@ if (count($_FILES) > 0 && $_FILES['upload']['error'] == 0 && $_FILES['upload']['
 <body>
 	<div>
 		<h1>TODO List</h1>
-		<a href="#" id="imgclick" onclick="this.focus();return false"><img src='img/do-all-things.png' width=200 height=150 class='img-rounded'></a>
+		<a href="#" id="imgclick"><img src='img/do-all-things.png' width=200 height=150 class='img-rounded'></a>
 	</div>
 	<br>
 	<div class='newitem'>
