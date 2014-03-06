@@ -14,8 +14,10 @@ ul {
 }
 
 div {
-	position: relative;
 	margin-left: 200px;
+	margin-bottom: 10px;
+	margin-right: 400px;
+	margin-top: 10px;
 }
 
 .newitem {
@@ -45,7 +47,7 @@ a:active {
 	color: #F0E8E5;
 }
 
-img {
+.imgclick {
 	transform-style: preserve-3d;
 	-webkit-transform-style: preserve-3d;
 }
