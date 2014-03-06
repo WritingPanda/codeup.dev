@@ -32,6 +32,7 @@ input, textarea {
 
 a:hover {
 	color: #DEAF0B;
+	text-decoration: none;
 }
 
 a:active {
@@ -41,11 +42,18 @@ a:active {
 .trademark {
 	font-family: 'Roboto Slab', serif;
 	font-size: 1em;
+	color: #F0E8E5;
 }
 
-img:hover {
+img {
+	transform-style: preserve-3d;
+	-webkit-transform-style: preserve-3d;
+}
+
+img:focus, img:active, img:visited {
 	border: 1px solid black;
 	margin-left: 10px;
-	transform: rotateY(180deg);
-	-webkit-transform:rotateY(180deg);
+	transform: rotateY(360deg);
+	-webkit-transform:rotateY(360deg);
+	transition:1.2s;
 }
