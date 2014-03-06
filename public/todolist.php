@@ -40,7 +40,7 @@ if (count($_FILES) > 0 && $_FILES['upload']['error'] == 0 && $_FILES['upload']['
 <body>
 	<div>
 		<h1>TODO List</h1>
-		<img src='img/do-all-things.png' width=200 height=150 class='img-rounded'>
+		<a href="#" id="imgclick" onclick="this.focus();return false"><img src='img/do-all-things.png' width=200 height=150 class='img-rounded'></a>
 	</div>
 	<br>
 	<div class='newitem'>
@@ -121,7 +121,7 @@ if (count($_FILES) > 0 && $_FILES['upload']['error'] == 0 && $_FILES['upload']['
 	</div>
 	<div>
 		<footer>
-			<p style="font-family:Courier">&copy; 2014 <a class='trademark' href="http://writtenbyapanda.tumblr.com" target="_blank">Written by a Panda</a></p>
+			<p class='trademark'>&copy; 2014 <a href="http://writtenbyapanda.tumblr.com" target="_blank">Written by a Panda</a></p>
 		</footer>
 	</div>
 </body>
