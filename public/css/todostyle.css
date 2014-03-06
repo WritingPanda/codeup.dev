@@ -1,0 +1,17 @@
+h1 {
+	font-style: underline;
+}
+
+body {
+	background-color: #191C70;
+	color: #F0E8E5;
+	font-family: sans-serif;
+}
+
+ul {
+	list-style: decimal-leading-zero;
+}
+
+.upload {
+	
+}
