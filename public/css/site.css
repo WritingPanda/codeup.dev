@@ -1,22 +1,78 @@
-#container {
-	margin: 50px auto;
-	width: 500px;
+body {
+	background-image: url('img/kool1.jpg');
+	background-repeat: repeat-y;
+	background-position: center;
+	background-attachment: fixed;
+}
+
+div {
+	width: 50px;
+	height: 50px;
+	font-weight: bold;
+	font-family: 'Source Code Pro',sans-serif;
+	color: #FFF;
+	text-shadow: black 0.1em 0.1em 0.2em;
+	font-size: 1em;
 	padding: 10px;
+	margin-right: 50px;
+	margin-bottom: 50px;
+	border: 1px solid #000;
+	float: left;
+	box-shadow: 10px 10px 5px #888888;
 }
 
-#container h1.fancy-header {
-	color: blue;
-	text-decoration: underline;
+h1 {
+	font-family: serif;
+	color: #000;
+	width: 428px;
+	border: 0px;
 }
 
-em {
-    font-weight: bold;
+#main-header {
+	margin-bottom: 50px;
 }
 
-.article {
-    clear:both;
+.ribbon {
+	position: absolute;
+	top: 0.1px;
+	right: 0.1px;
 }
 
-.article>a {
-    float:right;
+a:visited, a:active{
+	color: #000;
+}
+
+a:hover {
+	color: rgb(246, 72, 76);
+}
+
+div>img {
+	position: relative;
+	top: -90px;
+	right: -40px;
+}
+
+#red {
+	background-color: #FF0000;
+}
+
+#orange {
+	background-color: #FFA500;
+}
+
+#yellow {
+	background-color: #ffff00;
+}
+
+#green {
+	background-color: #00A300;
+	clear: left;
+}
+
+#blue {
+	background-color: #0000ff;
+}
+
+#violet {
+	background-color: #CC00FF;
 }
