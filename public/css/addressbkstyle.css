@@ -39,6 +39,21 @@ th {
 	font-family: "Coda Caption";
 }
 
+button {
+	margin-left: 135px;
+}
+
+.close {
+	margin-left: 0px;
+	color: #f8f8fa;
+	text-align: center;
+}
+
+.close:hover {
+	/*Changing the X button from an X to text 'NOOOO!'
+	Then, create an active pseudo class that makes the text change from 'NOOOO!' to WHY?!*/
+}
+
 a:link {
 	color:#f8f8fa;
 }
