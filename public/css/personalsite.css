@@ -1,0 +1,12 @@
+i {
+	font-size: 2em;
+}
+
+.container-fluid {
+	width: 75%;
+}
+
+hr {
+	margin: 5px;
+	border: 1px solid rgb(42,61,80);
+}
