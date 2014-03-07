@@ -35,6 +35,7 @@ if (count($_FILES) > 0 && $_FILES['upload']['error'] == 0 && $_FILES['upload']['
 	<link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
 	<link rel="stylesheet" href="/css/todostyle.css" type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans|Oxygen|Roboto+Slab' rel='stylesheet' type='text/css'>
+	<script src="/js/bootstrap.js"></script>
 	<title>Todo List</title>
 </head>
 <body>
