@@ -71,6 +71,8 @@ if (!empty($_POST)) {
 <head>
 	<meta charset="UTF-8">
 	<link href='http://fonts.googleapis.com/css?family=Coda+Caption:800|Bubbler+One' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.css">
 	<link rel="stylesheet" href="/css/addressbkstyle.css" type='text/css'>
 	<title>Your Address Book</title>
 </head>
@@ -94,7 +96,7 @@ if (!empty($_POST)) {
 			foreach ($entries as $entry) {
 				echo "<td>" . htmlspecialchars(strip_tags($entry)) . "</td>";
 			}
-			echo "<td><a href=?remove={$key}>Remove Entry</a></td>";
+			echo "<td><button type='button' class='close' aria-hidden='true'><a href=?remove={$key}>&times;</a></button></td>";
 
 		}
 		echo "</tr>";
@@ -128,7 +130,7 @@ if (!empty($_POST)) {
 			<input id='phone' name='phone' type='text'>
 		</p>
 		<p>
-			<button type='submit' style='margin-left:14em;'>Add Address</button>
+			<button class="btn btn-primary" type='submit'>Add Address</button>
 		</p>
 	</form>
 	<form method='POST' enctype='multipart/form-data' action='addressbook.php'>
@@ -137,7 +139,7 @@ if (!empty($_POST)) {
 			<input id='upload' name='upload' type='file'>
 		</p>
 		<p>
-			<button type='submit' style='margin-left:14em'>Upload</button>
+			<button class="btn btn-primary" type='submit'>Upload</button>
 		</p>
 	</form>
 	<footer>
