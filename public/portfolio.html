@@ -6,13 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Portfolio</title>
     <link href="css/superhero-bootstrap.css" rel="stylesheet">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
   </head>
   <body>
     <div class="navbar navbar-default">
@@ -30,18 +23,110 @@
         <li><a href="/resume.html">Resume</a></li>
         <li><a href="http://writtenbyapanda.tumblr.com" target="_blank">Blog</a></li>
       </ul>
-      <form class="navbar-form navbar-left">
-        <input type="text" class="form-control col-lg-8" placeholder="Search">
-      </form>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Link</a></li>
-      </ul>
     </div>
   </div>
-    <h1>Your portfolio page.</h1>
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <div class="container">
+  <div class="row row-offcanvas row-offcanvas-right">
+    <div class="col-xs-12 col-sm-9">
+      <p class="pull-right visible-xs">
+        <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
+      </p>
+      <div class="jumbotron">
+        <h1>
+          Panda Projects
+        </h1>
+        <p>
+          These are examples of projects I have been working on since Codeup began and a taste of things to come. Feel free to look around and ask me any questions by emailing me at <a href="mailto:omar.quimbaya4@gmail.com">this email address</a>.
+        </p>
+      </div>
+      <div class="row">
+        <div class="col-6 col-sm-6 col-lg-4">
+          <h2>
+            TODO App
+          </h2>
+          <p>
+            This is a todo list app that I started coding for the command line and then to become a web app.
+          </p>
+          <p>
+            <a class="btn btn-default" href="https://github.com/WritingPanda/codeup.dev/blob/master/public/todolist.php" role="button">View details &raquo;</a>
+          </p>
+        </div>
+        <div class="col-6 col-sm-6 col-lg-4">
+          <h2>
+            Addressbook App
+          </h2>
+          <p>
+            The addressbook application gave me experience in working with CSVs and how to manipulate them using PHP.
+          </p>
+          <p>
+            <a class="btn btn-default" href="https://github.com/WritingPanda/codeup.dev/blob/master/public/addressbook.php" role="button">View details &raquo;</a>
+          </p>
+        </div>
+        <div class="col-6 col-sm-6 col-lg-4">
+          <h2>
+            99 Bottles of Beer
+          </h2>
+          <p>
+            I wrote a command line application during a PHP challenge at the local PHP meet-up group.
+          </p>
+          <p>
+            <a class="btn btn-default" href="https://github.com/WritingPanda/phpchallenges/blob/master/beer.php" role="button">View details &raquo;</a>
+          </p>
+        </div>
+        <div class="col-6 col-sm-6 col-lg-4">
+          <h2>
+            Morse Code Converter
+          </h2>
+          <p>
+            I built this morse code generator for the command line. It was a fun little experiment, and it enabled me to learn more about PHP.
+          </p>
+          <p>
+            <a class="btn btn-default" href="https://github.com/WritingPanda/phpchallenges/blob/master/morsecode.php" role="button">...- .. . .-- / -.. . - .- .. .-.. ... &raquo;</a>
+          </p>
+        </div>
+        <div class="col-6 col-sm-6 col-lg-4">
+          <h2>
+            Palindrome
+          </h2>
+          <p>
+            This app will let you know if a word or phrase is a palindrome. It may be small, but it is a fun piece of software built entirely in PHP for the command line.
+          </p>
+          <p>
+            <a class="btn btn-default" href="https://github.com/WritingPanda/phpchallenges/blob/master/palindrome.php" role="button">View details &raquo;</a>
+          </p>
+        </div>
+        <div class="col-6 col-sm-6 col-lg-4">
+          <h2>
+            Panda Adventure Game
+          </h2>
+          <p>
+            I wanted a pet project while I continue to learn programming. This game will allow me to continue to push my learning of programming.
+          </p>
+          <p>
+            <a class="btn btn-default" href="https://github.com/WritingPanda/PandaAdventure" role="button">View details &raquo;</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">
+      <div class="list-group">
+        <a href="https://github.com/WritingPanda" target="_blank" class="list-group-item active">My Github</a>
+        <a href="https://github.com/WritingPanda/codeup.dev/blob/master/public/todolist.php" target="_blank" class="list-group-item">TODO App</a>
+        <a href="https://github.com/WritingPanda/codeup.dev/blob/master/public/addressbook.php" class="list-group-item" target="_blank">Addressbook App</a>
+        <a href="https://github.com/WritingPanda/phpchallenges/blob/master/beer.php" class="list-group-item" target="_blank">99 Bottles of Beer</a>
+        <a href="https://github.com/WritingPanda/phpchallenges/blob/master/morsecode.php" class="list-group-item" target="_blank">Morse Code Converter</a>
+        <a href="https://github.com/WritingPanda/phpchallenges/blob/master/palindrome.php" class="list-group-item" target="_blank">Palindrome</a>
+        <a href="https://github.com/WritingPanda/PandaAdventure" class="list-group-item" target="_blank">Panda Adventure</a>
+      </div>
+    </div>
+  </div>
+  <hr>
+</div>
+<footer class="footer">
+  <p>&copy; 2014 <a href="http://www.writtenbyapanda.com" target="_blank">Written by a Panda</a></p>
+</footer>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
   </body>
 </html>
