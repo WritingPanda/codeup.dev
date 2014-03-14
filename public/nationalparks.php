@@ -1,7 +1,9 @@
 <?php 
 	require_once('php/mysqli_call.php');
 
-	if (!empty($_GET)) {
+
+
+	if (!empty($_GET) && isset($_GET['sort_column']) && isset($_GET['sort_order'])) {
 		$result = $mysqli->query("SELECT name, location, date_established, area_in_acres, description FROM national_parks ORDER BY {$_GET['sort_column']} {$_GET['sort_order']}");
 	} else {
     	$result = $mysqli->query("SELECT name, location, date_established, area_in_acres, description FROM national_parks");
@@ -58,9 +60,8 @@
 	        			echo "<tr>";
 	        			foreach ($row as $park) {
 	        				echo "<td>$park</td>";
-	        			}
-	    			}
-	    			echo "</tr>";
+	    				} echo "</tr>";
+	        		}
 				?>
 		</table>
 	</div>
