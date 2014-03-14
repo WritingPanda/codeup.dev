@@ -1,9 +1,11 @@
 <?php 
-	require_once('php/mysqli_call.php'); 
+	require_once('php/mysqli_call.php');
 
-    $result = $mysqli->query("SELECT name, location, date_established, area_in_acres, description FROM national_parks ");
-
-    var_dump($_GET);
+	if (!empty($_GET)) {
+		$result = $mysqli->query("SELECT name, location, date_established, area_in_acres, description FROM national_parks ORDER BY {$_GET['sort_column']} {$_GET['sort_order']}");
+	} else {
+    	$result = $mysqli->query("SELECT name, location, date_established, area_in_acres, description FROM national_parks");
+	}
 ?>
 <!doctype html>
 <html lang="en">
@@ -24,20 +26,28 @@
 			</p>
 		</h1>
 	</div>
-	<div class="col-md-10 col-md-offset-1">
+	<div class="col-md-10 col-md-offset-1 table-responsive">
 		<table class="table table-striped table-bordered">
 			<tr class="success">
 				<th>
-					Name 
+					Name
+					<br>
+					<a href="?sort_column=name&amp;sort_order=asc"><span class="glyphicon glyphicon-chevron-up"></span></a> <a href="?sort_column=name&amp;sort_order=desc"><span class="glyphicon glyphicon-chevron-down"></span></a>
 				</th>
 				<th>
 					Location
+					<br>
+					<a href="?sort_column=location&amp;sort_order=asc"><span class="glyphicon glyphicon-chevron-up"></span></a> <a href="?sort_column=location&amp;sort_order=desc"><span class="glyphicon glyphicon-chevron-down"></span></a>
 				</th>
 				<th>
-					Date established
+					Established
+					<br>
+					<a href="?sort_column=date_established&amp;sort_order=asc"><span class="glyphicon glyphicon-chevron-up"></span></a> <a href="?sort_column=date_established&amp;sort_order=desc"><span class="glyphicon glyphicon-chevron-down"></span></a>
 				</th>
 				<th>
-					Area in Acres
+					Acres
+					<br>
+					<a href="?sort_column=area_in_acres&amp;sort_order=asc"><span class="glyphicon glyphicon-chevron-up"></span></a> <a href="?sort_column=area_in_acres&amp;sort_order=desc"><span class="glyphicon glyphicon-chevron-down"></span></a>
 				</th>
 				<th>
 					Description
@@ -56,12 +66,5 @@
 	</div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <!-- <a href="?sort_column=name%amp;sort_order=asc">Asc</a>
-	<a href="?sort_column=name%amp;sort_order=desc">Desc</a> -->
-	<?php 
-	// 	if (!empty($_GET)) {
-	// 		echo $_GET['sort_column'] . ' ' . $_GET['sort_order'];
-	// 	}	 
-	?>
 </body>
 </html>
