@@ -26,43 +26,11 @@
 	<div class="page-header">
 		<h1>
 			<p class="text-center">
-			National Parks
+			National Parks in the USA
 			<br>
-			<img src="/img/LargeUSFlag.gif">
 			</p>
 		</h1>
 	</div>
-	<div class="container col-md-11 col-md-offset-1">
-		<form method="POST" action="national_parks.php">
-			<!-- Create form for inputting information about national parks -->
-			<div class="form-group row col-xs-3">
-				<label for="name">Name</label>
-				<input type="text" class="form-control" placeholder="Enter name of national park">
-			</div>
-			<div class="form-group row col-xs-3">
-				<label for="location">Location</label>
-				<input type="text" class="form-control" placeholder="Enter state">
-			</div>
-			<div class="form-group row col-xs-3">
-				<label for="date_established">Established</label>
-				<input type="text" class="form-control" placeholder="YYYY-MM-DD">
-			</div>
-			<div class="form-group row col-xs-3">
-				<label for="area_in_acres">Area</label>
-				<input type="text" class="form-control" placeholder="Enter area in acres">
-			</div>
-			<div class="col-md-8 col-md-offset-4">
-				<div class="form-group row col-md-4">
-					<label for="description">Description</label>
-					<textarea class="form-control" rows="3"></textarea>
-				</div>
-			</div>
-			<div class="col-md-6 col-md-offset-5 btn-lg btn-block">
-				<button type="submit" class="btn btn-primary">Submit</button>
-			</div>
-		</form>
-	</div>
-	<br>
 	<div class="col-md-10 col-md-offset-1 table-responsive">
 		<table class="table table-striped table-bordered">
 			<tr class="success">
@@ -99,6 +67,36 @@
 	        		}
 				?>
 		</table>
+	</div>
+	<div class="container col-md-11 col-md-offset-1">
+		<form method="POST" action="national_parks.php">
+			<!-- Create form for inputting information about national parks -->
+			<div class="form-group row col-xs-3">
+				<label for="name">Name</label>
+				<input type="text" class="form-control" placeholder="Enter name of national park">
+			</div>
+			<div class="form-group row col-xs-3">
+				<label for="location">Location</label>
+				<input type="text" class="form-control" placeholder="Enter state">
+			</div>
+			<div class="form-group row col-xs-3">
+				<label for="date_established">Established</label>
+				<input type="text" class="form-control" placeholder="YYYY-MM-DD">
+			</div>
+			<div class="form-group row col-xs-3">
+				<label for="area_in_acres">Area</label>
+				<input type="text" class="form-control" placeholder="Enter area in acres">
+			</div>
+			<div class="col-md-8 col-md-offset-4">
+				<div class="form-group row col-md-4">
+					<label for="description">Description</label>
+					<textarea class="form-control" rows="3"></textarea>
+				</div>
+			</div>
+			<div class="col-md-6 col-md-offset-5 btn-lg btn-block">
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</div>
+		</form>
 	</div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
