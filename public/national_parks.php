@@ -11,7 +11,7 @@
 			empty($_POST['date_established']) ||
 			empty($_POST['area_in_acres']) ||
 			empty($_POST['descripton'])) {
-				$errormsg = "Error! Please fill in all fields.";
+				$errormsg = "<img src='img/007error.gif'><p id='error'>ERROR!</p>";
 		} else {
 			$stmt = $mysqli->prepare("INSERT INTO national_parks (name, location, date_established, area_in_acres, description) VALUES (?, ?, ?, ?, ?)");
 			$stmt->bind_param("sssds", $_POST['name'], $_POST['location'], $_POST['date_established'], $_POST['area_in_acres'], $_POST['description']);
@@ -47,6 +47,7 @@
 	<title>National Parks</title>
 	<style>
 		#error {
+			text-align: center;
 			text-shadow: 1px 1px 1px #000000;
 			font-weight: bold;
 		}
