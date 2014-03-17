@@ -1,25 +1,22 @@
 <?php 
 	require_once('php/mysqli_call.php');
 
-	if (!empty($_POST['name']) &&
-		!empty($_POST['location']) &&
-		!empty($_POST['date_established']) &&
-		!empty($_POST['area_in_acres']) &&
-		!empty($_POST['description'])) {
-		$stmt = $mysqli->prepare("INSERT INTO national_parks (name, location, date_established, area_in_acres, description) VALUES (?, ?, ?, ?, ?)");
-		$stmt->bind_param("sssds", $_POST['name'], $_POST['location'], $_POST['date_established'], $_POST['area_in_acres'], $_POST['description']);
-		$stmt->execute();
-	}
+	$errormsg = "";
 
-	if (empty($_POST)) {
-		$errormsg = "";
-	} elseif (isset($_POST) &&
-		empty($_POST['name']) ||
-		empty($_POST['location']) ||
-		empty($_POST['date_established']) ||
-		empty($_POST['area_in_acres']) ||
-		empty($_POST['descripton'])) {
-		$errormsg = "Error! Please fill in all fields.";
+	if (!empty($_POST)) {
+
+		if (isset($_POST) &&
+			empty($_POST['name']) ||
+			empty($_POST['location']) ||
+			empty($_POST['date_established']) ||
+			empty($_POST['area_in_acres']) ||
+			empty($_POST['descripton'])) {
+				$errormsg = "Error! Please fill in all fields.";
+		} else {
+			$stmt = $mysqli->prepare("INSERT INTO national_parks (name, location, date_established, area_in_acres, description) VALUES (?, ?, ?, ?, ?)");
+			$stmt->bind_param("sssds", $_POST['name'], $_POST['location'], $_POST['date_established'], $_POST['area_in_acres'], $_POST['description']);
+			$stmt->execute();
+		}
 	}
 
 	$parks = $mysqli->query("SELECT name, location, date_established, area_in_acres, description FROM national_parks");
@@ -45,7 +42,6 @@
 <html lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-	<link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
 	<link rel="stylesheet" href="/css/bootstrap-theme.css">
 	<link rel="stylesheet" href="/css/bootstrap.min.css">
 	<title>National Parks</title>
@@ -60,7 +56,7 @@
 	<div class="page-header">
 		<h1>
 			<p class="text-center">
-			National Parks in the USA
+				National Parks in the USA
 			</p>
 			<p id="error" class="text-center">
 				<?= $errormsg; ?>
@@ -101,7 +97,9 @@
 	        			foreach ($row as $parksinfo) {
 	        				echo "<td>$parksinfo</td>";
 	    				}
-	        		}	echo "</tr>";
+	        			echo "</tr>";
+	        		}	
+
 				?>
 		</table>
 	</div>
