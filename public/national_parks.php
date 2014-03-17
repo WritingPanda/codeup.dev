@@ -1,17 +1,45 @@
 <?php 
 	require_once('php/mysqli_call.php');
 
-	if (!empty($_GET) && isset($_GET['sort_column']) && isset($_GET['sort_order'])) {
-		$result = $mysqli->query("SELECT name, location, date_established, area_in_acres, description FROM national_parks ORDER BY {$_GET['sort_column']} {$_GET['sort_order']}");
-	} else {
-    	$result = $mysqli->query("SELECT name, location, date_established, area_in_acres, description FROM national_parks");
-	}
-	if (!empty($_POST['name']) && !empty($_POST['location']) && !empty($_POST['date_established']) && !empty($_POST['area_in_acres']) && !empty($_POST['description'])) {
+	if (!empty($_POST['name']) &&
+		!empty($_POST['location']) &&
+		!empty($_POST['date_established']) &&
+		!empty($_POST['area_in_acres']) &&
+		!empty($_POST['description'])) {
 		$stmt = $mysqli->prepare("INSERT INTO national_parks (name, location, date_established, area_in_acres, description) VALUES (?, ?, ?, ?, ?)");
 		$stmt->bind_param("sssds", $_POST['name'], $_POST['location'], $_POST['date_established'], $_POST['area_in_acres'], $_POST['description']);
 		$stmt->execute();
 	}
-	var_dump($_POST);
+
+	if (empty($_POST)) {
+		$errormsg = "";
+	} elseif (isset($_POST) &&
+		empty($_POST['name']) ||
+		empty($_POST['location']) ||
+		empty($_POST['date_established']) ||
+		empty($_POST['area_in_acres']) ||
+		empty($_POST['descripton'])) {
+		$errormsg = "Error! Please fill in all fields.";
+	}
+
+	$parks = $mysqli->query("SELECT name, location, date_established, area_in_acres, description FROM national_parks");
+
+	$validCols = ['name','location','date_established','area_in_acres'];
+	$sortCol = 'name';
+	$sortOrder = 'ASC';
+
+	if (isset($_GET['sort_column']) && in_array($_GET['sort_column'], $validCols)) {
+		$sortCol = $_GET['sort_column'];
+	}
+
+	if (isset($_GET['sort_order']) && $_GET['sort_order'] == 'desc') {
+		$sortOrder = 'DESC';
+	}
+
+	$result = $mysqli->query("SELECT name, location, date_established, area_in_acres, description FROM national_parks ORDER BY {$sortCol} {$sortOrder}");	
+	
+	$mysqli->close();	
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -21,13 +49,21 @@
 	<link rel="stylesheet" href="/css/bootstrap-theme.css">
 	<link rel="stylesheet" href="/css/bootstrap.min.css">
 	<title>National Parks</title>
+	<style>
+		#error {
+			text-shadow: 1px 1px 1px #000000;
+			font-weight: bold;
+		}
+	</style>
 </head>
 <body>
 	<div class="page-header">
 		<h1>
 			<p class="text-center">
 			National Parks in the USA
-			<br>
+			</p>
+			<p id="error" class="text-center">
+				<?= $errormsg; ?>
 			</p>
 		</h1>
 	</div>
@@ -59,38 +95,38 @@
 				</th>
 			</tr>
 				<?php
+
 					while ($row = $result->fetch_array(MYSQLI_NUM)) {
 	        			echo "<tr>";
-	        			foreach ($row as $park) {
-	        				echo "<td>$park</td>";
-	    				} echo "</tr>";
-	        		}
+	        			foreach ($row as $parksinfo) {
+	        				echo "<td>$parksinfo</td>";
+	    				}
+	        		}	echo "</tr>";
 				?>
 		</table>
 	</div>
 	<div class="container col-md-11 col-md-offset-1">
 		<form method="POST" action="national_parks.php">
-			<!-- Create form for inputting information about national parks -->
 			<div class="form-group row col-xs-3">
-				<label for="name">Name</label>
-				<input type="text" class="form-control" placeholder="Enter name of national park">
+				<label for="name">National Park</label>
+				<input id="name" name="name" type="text" class="form-control" placeholder="Enter name">
 			</div>
 			<div class="form-group row col-xs-3">
 				<label for="location">Location</label>
-				<input type="text" class="form-control" placeholder="Enter state">
+				<input id="location" name="location" type="text" class="form-control" placeholder="Enter state">
 			</div>
 			<div class="form-group row col-xs-3">
 				<label for="date_established">Established</label>
-				<input type="text" class="form-control" placeholder="YYYY-MM-DD">
+				<input id="date_established" name="date_established" type="text" class="form-control" placeholder="YYYY-MM-DD">
 			</div>
 			<div class="form-group row col-xs-3">
 				<label for="area_in_acres">Area</label>
-				<input type="text" class="form-control" placeholder="Enter area in acres">
+				<input id="area_in_acres" name="area_in_acres" type="text" class="form-control" placeholder="Enter acres">
 			</div>
 			<div class="col-md-8 col-md-offset-4">
 				<div class="form-group row col-md-4">
 					<label for="description">Description</label>
-					<textarea class="form-control" rows="3"></textarea>
+					<textarea id="description" name="description" class="form-control" rows="3"></textarea>
 				</div>
 			</div>
 			<div class="col-md-6 col-md-offset-5 btn-lg btn-block">
