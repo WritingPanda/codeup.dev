@@ -1,0 +1,106 @@
+<?php 
+	require_once('php/mysqli_call.php');
+
+	if (!empty($_GET) && isset($_GET['sort_column']) && isset($_GET['sort_order'])) {
+		$result = $mysqli->query("SELECT name, location, date_established, area_in_acres, description FROM national_parks ORDER BY {$_GET['sort_column']} {$_GET['sort_order']}");
+	} else {
+    	$result = $mysqli->query("SELECT name, location, date_established, area_in_acres, description FROM national_parks");
+	}
+	if (!empty($_POST['name']) && !empty($_POST['location']) && !empty($_POST['date_established']) && !empty($_POST['area_in_acres']) && !empty($_POST['description'])) {
+		$stmt = $mysqli->prepare("INSERT INTO national_parks (name, location, date_established, area_in_acres, description) VALUES (?, ?, ?, ?, ?)");
+		$stmt->bind_param("sssds", $_POST['name'], $_POST['location'], $_POST['date_established'], $_POST['area_in_acres'], $_POST['description']);
+		$stmt->execute();
+	}
+	var_dump($_POST);
+?>
+<!doctype html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.css">
+	<link rel="stylesheet" href="/css/bootstrap-theme.css">
+	<link rel="stylesheet" href="/css/bootstrap.min.css">
+	<title>National Parks</title>
+</head>
+<body>
+	<div class="page-header">
+		<h1>
+			<p class="text-center">
+			National Parks
+			<br>
+			<img src="/img/LargeUSFlag.gif">
+			</p>
+		</h1>
+	</div>
+	<div class="container col-md-11 col-md-offset-1">
+		<form method="POST" action="national_parks.php">
+			<!-- Create form for inputting information about national parks -->
+			<div class="form-group row col-xs-3">
+				<label for="name">Name</label>
+				<input type="text" class="form-control" placeholder="Enter name of national park">
+			</div>
+			<div class="form-group row col-xs-3">
+				<label for="location">Location</label>
+				<input type="text" class="form-control" placeholder="Enter state">
+			</div>
+			<div class="form-group row col-xs-3">
+				<label for="date_established">Established</label>
+				<input type="text" class="form-control" placeholder="YYYY-MM-DD">
+			</div>
+			<div class="form-group row col-xs-3">
+				<label for="area_in_acres">Area</label>
+				<input type="text" class="form-control" placeholder="Enter area in acres">
+			</div>
+			<div class="col-md-8 col-md-offset-4">
+				<div class="form-group row col-md-4">
+					<label for="description">Description</label>
+					<textarea class="form-control" rows="3"></textarea>
+				</div>
+			</div>
+			<div class="col-md-6 col-md-offset-5 btn-lg btn-block">
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</div>
+		</form>
+	</div>
+	<br>
+	<div class="col-md-10 col-md-offset-1 table-responsive">
+		<table class="table table-striped table-bordered">
+			<tr class="success">
+				<th>
+					Name
+					<br>
+					<a href="?sort_column=name&amp;sort_order=asc"><span class="glyphicon glyphicon-chevron-up"></span></a> <a href="?sort_column=name&amp;sort_order=desc"><span class="glyphicon glyphicon-chevron-down"></span></a>
+				</th>
+				<th>
+					Location
+					<br>
+					<a href="?sort_column=location&amp;sort_order=asc"><span class="glyphicon glyphicon-chevron-up"></span></a> <a href="?sort_column=location&amp;sort_order=desc"><span class="glyphicon glyphicon-chevron-down"></span></a>
+				</th>
+				<th>
+					Established
+					<br>
+					<a href="?sort_column=date_established&amp;sort_order=asc"><span class="glyphicon glyphicon-chevron-up"></span></a> <a href="?sort_column=date_established&amp;sort_order=desc"><span class="glyphicon glyphicon-chevron-down"></span></a>
+				</th>
+				<th>
+					Acres
+					<br>
+					<a href="?sort_column=area_in_acres&amp;sort_order=asc"><span class="glyphicon glyphicon-chevron-up"></span></a> <a href="?sort_column=area_in_acres&amp;sort_order=desc"><span class="glyphicon glyphicon-chevron-down"></span></a>
+				</th>
+				<th>
+					Description
+				</th>
+			</tr>
+				<?php
+					while ($row = $result->fetch_array(MYSQLI_NUM)) {
+	        			echo "<tr>";
+	        			foreach ($row as $park) {
+	        				echo "<td>$park</td>";
+	    				} echo "</tr>";
+	        		}
+				?>
+		</table>
+	</div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</body>
+</html>
