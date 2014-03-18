@@ -1,25 +1,24 @@
 <?php 
+
 	require_once('php/mysqli_call.php');
 
 	$errormsg = "";
 
 	if (!empty($_POST)) {
-
-		if (isset($_POST) &&
-			empty($_POST['name']) ||
+		if (empty($_POST['name']) ||
 			empty($_POST['location']) ||
 			empty($_POST['date_established']) ||
 			empty($_POST['area_in_acres']) ||
-			empty($_POST['descripton'])) {
+			empty($_POST['description'])) {
+				var_dump($_POST);
 				$errormsg = "<img src='img/007error.gif'><p id='error'>ERROR!</p>";
 		} else {
+			echo "DO INSERT GO!<br />";
 			$stmt = $mysqli->prepare("INSERT INTO national_parks (name, location, date_established, area_in_acres, description) VALUES (?, ?, ?, ?, ?)");
 			$stmt->bind_param("sssds", $_POST['name'], $_POST['location'], $_POST['date_established'], $_POST['area_in_acres'], $_POST['description']);
 			$stmt->execute();
 		}
 	}
-
-	$parks = $mysqli->query("SELECT name, location, date_established, area_in_acres, description FROM national_parks");
 
 	$validCols = ['name','location','date_established','area_in_acres'];
 	$sortCol = 'name';
