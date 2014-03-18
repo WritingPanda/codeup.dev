@@ -7,11 +7,12 @@
 	    throw new Exception('Failed to connect to MySQL: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error);
 	}
 
+	class InvalidInputException extends Exception {}
+
 	// 4. Add additional functionality, such as a delete function
 	// 5. Move all functions into a class
 	// 6. Require the class document
 	// 7. Test and debug after every step
-
 
 	if (!empty($_POST['newitem'])) {
 		$stmt = $mysqli->prepare("INSERT INTO task (content) VALUES (?)");
@@ -20,10 +21,16 @@
 	}
 
 	$result = $mysqli->query("SELECT content FROM task");	
-	
+
+	if (isset($_POST['remove'])) {
+		$stmt = $mysqli->prepare("DELETE FROM task WHERE id = ?");
+		$stmt->bind_param('i', $_GET['remove']);
+		$stmt->execute();
+	}
+
 	$mysqli->close();
 
-	class InvalidInputException extends Exception {}
+	var_dump($_POST);
 
 ?>
 
@@ -35,13 +42,6 @@
 	<link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
 	<link rel="stylesheet" href="/css/todostyle.css" type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans|Oxygen|Roboto+Slab' rel='stylesheet' type='text/css'>
-	<style>
-		#error {
-			text-align: center;
-			text-shadow: 1px 1px 1px #000000;
-			font-weight: bold;
-		}
-	</style>
 	<script src="/js/bootstrap.js"></script>
 	<title>Todo List</title>
 </head>
@@ -52,7 +52,7 @@
 	</div>
 	<br>
 	<div class='newitem'>
-		<form method='POST' action='todo.php'>
+		<form method='POST' id='additem' action='todo.php'>
 		<ul>
 			<?php 
 
@@ -68,23 +68,35 @@
 				echo $e->getMessage();
 			}
 
-			while ($row = $result->fetch_assoc()) {
+			while ($row = $result->fetch_array(MYSQLI_NUM)) {
 				foreach ($row as $key => $task) {
-					echo "<li>" . htmlspecialchars(strip_tags($task)) . "</li>";
+					echo "<li>" . htmlspecialchars(strip_tags($task)) . ' ' . "<button class='btn btn-danger' onclick='removebyID($key)'><span class='glyphicon glyphicon-ok-circle'></span></button></li>";
 				}
 			}
 			
 			?>
 		</ul>
+	    	<script>
+		    	var form = document.getElementById('removeForm');
+		    	var removeID = document.getElementById('removeID');
+
+		    	function removebyID(id) {
+		    		removeID.value = id;
+		    		form.submit();
+		    	}
+		    </script>
 		<br>
-				<p>
-					<label for='newitem'>Task: </label>
-					<input id='newitem' name='newitem' type='text' placeholder='Enter task' autofocus='autofocus'>
-				</p>
 			<p>
-				<button class="btn btn-primary" type="submit">Add todo</button>
+				<label for='newitem'>Task: </label>
+				<input id='newitem' name='newitem' type='text' placeholder='Enter task' autofocus='autofocus'>
+			</p>
+			<p>
+				<button id='newitem' class="btn btn-primary" type="submit">Add todo</button>
 			</p>
 		</form>
+		<form method="POST" id="removeForm" action="todo.php">
+	    	<input id="removeID" type="hidden" name="remove" value="">
+	    </form>
 	</div>
 	<div>
 		<footer>
