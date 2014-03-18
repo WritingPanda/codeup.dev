@@ -7,13 +7,13 @@
 	    throw new Exception('Failed to connect to MySQL: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error);
 	}
 
-	// 3. Verify user inputs, avoid empty values
 	// 4. Add additional functionality, such as a delete function
 	// 5. Move all functions into a class
 	// 6. Require the class document
 	// 7. Test and debug after every step
 
-	if (!empty($_POST)) {
+
+	if (!empty($_POST['newitem'])) {
 		$stmt = $mysqli->prepare("INSERT INTO task (content) VALUES (?)");
 		$stmt->bind_param("s", $_POST['newitem']);
 		$stmt->execute();
@@ -68,9 +68,9 @@
 				echo $e->getMessage();
 			}
 
-			while ($row = $result->fetch_array()) {
+			while ($row = $result->fetch_assoc()) {
 				foreach ($row as $key => $task) {
-					echo "<li>" . $task . "</li>";
+					echo "<li>" . htmlspecialchars(strip_tags($task)) . "</li>";
 				}
 			}
 			
