@@ -1,36 +1,29 @@
 <?php
 
-	$mysqli = new mysqli('127.0.0.1', 'omar', 'geekdom1100', 'ENTER DATABASE NAME');
+	$mysqli = new mysqli('127.0.0.1', 'omar', 'geekdom1100', 'todo_list');
 
 	// Check for errors
 	if ($mysqli->connect_errno) {
 	    throw new Exception('Failed to connect to MySQL: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error);
 	}
 
-require_once('classes/filestore.php');
+	// 3. Verify user inputs, avoid empty values
+	// 4. Add additional functionality, such as a delete function
+	// 5. Move all functions into a class
+	// 6. Require the class document
+	// 7. Test and debug after every step
 
-class InvalidInputException extends Exception {}
-
-class TodoDataStore extends Filestore {
-	public function read_lines() {
-		$size = filesize($this->filename);
-        if ($size == 0) {
-            echo "<p>You don't have any tasks! Nice!</p>";
-            echo "<p>Add some tasks!</p>";
-            return $items = [];
-        }
-        return parent::read_lines();
+	if (!empty($_POST)) {
+		$stmt = $mysqli->prepare("INSERT INTO task (content) VALUES (?)");
+		$stmt->bind_param("s", $_POST['newitem']);
+		$stmt->execute();
 	}
-}
 
-$todo = new TodoDataStore('data/todo_list.txt');
+	$result = $mysqli->query("SELECT content FROM task");	
+	
+	$mysqli->close();
 
-if (count($_FILES) > 0 && $_FILES['upload']['error'] == 0 && $_FILES['upload']['type'] == 'text/plain') {
-	$upload_dir = '/vagrant/sites/codeup.dev/public/uploads/';
-	$Newfilename = basename($_FILES['upload']['name']);
-	$saved_filename = $upload_dir . $Newfilename;
-	move_uploaded_file($_FILES['upload']['tmp_name'], $saved_filename);
-}
+	class InvalidInputException extends Exception {}
 
 ?>
 
@@ -42,6 +35,13 @@ if (count($_FILES) > 0 && $_FILES['upload']['error'] == 0 && $_FILES['upload']['
 	<link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
 	<link rel="stylesheet" href="/css/todostyle.css" type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans|Oxygen|Roboto+Slab' rel='stylesheet' type='text/css'>
+	<style>
+		#error {
+			text-align: center;
+			text-shadow: 1px 1px 1px #000000;
+			font-weight: bold;
+		}
+	</style>
 	<script src="/js/bootstrap.js"></script>
 	<title>Todo List</title>
 </head>
@@ -52,11 +52,9 @@ if (count($_FILES) > 0 && $_FILES['upload']['error'] == 0 && $_FILES['upload']['
 	</div>
 	<br>
 	<div class='newitem'>
-		<form method='POST' action='todolist.php'>
+		<form method='POST' action='todo.php'>
 		<ul>
 			<?php 
-
-			$items = $todo->read();
 
 			try{
 				if (isset($_POST['newitem']) && empty($_POST['newitem'])) {
@@ -66,40 +64,14 @@ if (count($_FILES) > 0 && $_FILES['upload']['error'] == 0 && $_FILES['upload']['
 				if (isset($_POST['newitem']) && strlen($_POST['newitem']) > 240) {
 					throw new InvalidInputException('Task is longer than 240 characters. <strong>Please make it shorter.</strong>');
 				}
-				if (!empty($_POST['newitem'])) {
-					$newItem = $_POST['newitem'];
-					array_push($items, $newItem);
-					$todo->write($items);
-					header('Location: todolist.php');
-					exit(0);
-				}
 			} catch (InvalidInputException $e) {
 				echo $e->getMessage();
 			}
 
-			if (!empty($_FILES['upload']) && $_FILES['upload']['type'] == 'text/plain') {
-				$todo->filename = "/vagrant/sites/codeup.dev/public/uploads/{$Newfilename}";
-				$newFileArray = $todo->read();
-				$combineArray = array_merge($items, $newFileArray);
-				$todo->filename = 'data/todo_list.txt';
-				$todo->write($combineArray);
-				header('Location: todolist.php');
-				exit(0);
-			} elseif (count($_FILES) > 0 && $_FILES['upload']['type'] != 'text/plain') {
-				echo "<p><strong>ERROR:</strong> File is not a txt file.</p>";
-			}
-
-			foreach ($items as $key => $item) {
-				echo "<li>" . htmlspecialchars(strip_tags($item)) . " | <a href='?remove={$key}'>Complete</a></li>";
-			
-			}
-
-			if (isset($_GET['remove'])) {
-				$key = $_GET['remove'];
-				unset($items[$key]);
-				$todo->write($items);
-				header('Location: todolist.php');
-				exit(0);
+			while ($row = $result->fetch_array()) {
+				foreach ($row as $key => $task) {
+					echo "<li>" . $task . "</li>";
+				}
 			}
 			
 			?>
@@ -112,24 +84,11 @@ if (count($_FILES) > 0 && $_FILES['upload']['error'] == 0 && $_FILES['upload']['
 			<p>
 				<button class="btn btn-primary" type="submit">Add todo</button>
 			</p>
-			<br>
-		</form>
-	</div>
-	<div class='upload'>
-		<form method='POST' enctype='multipart/form-data' action='todolist.php'>
-			<p>
-				<label for='upload'>Upload a file to add to the list: </label>
-				<input id='upload' name='upload' type='file'>
-			</p>
-			<p>
-				<button class="btn btn-default" type="submit">Upload</button>
-			</p>
-			<br>
 		</form>
 	</div>
 	<div>
 		<footer>
-			<p class='trademark'>&copy; 2014 <a href="http://writtenbyapanda.tumblr.com" target="_blank">Written by a Panda</a></p>
+			<p class='trademark'>&copy; 2014 <a href="www.writtenbyapanda.com" target="_blank">Written by a Panda</a></p>
 		</footer>
 	</div>
 </body>
