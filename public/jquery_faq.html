@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
+	<title>FAQs</title>
+	<style>
+		.click {
+			cursor: pointer;
+		}
+		.crosshair {
+			cursor: crosshair;
+			text-wrap: suppress;
+		}
+		.smart-ass {
+			font-size: 2em;
+		}
+		dt {
+			font-size: 1.5em;
+		}
+		dd {
+			font-size: 1.2em;
+		}
+	</style>
+</head>
+<body>
+    
+	<div class='container text-center'>
+    	<h1 class='crosshair'>FAQs</h1>
+	    <dl class='click'>
+	    	<dt>
+	    		Question
+	    	</dt>
+	    	<dd>
+	    		Smart-ass answer
+	   		</dd>
+	    	<dt>
+	    		What is a national park?
+	    	</dt>
+	    	<dd>
+	    		The United States of America if it were a big-ass park.
+	   		</dd>
+	    	<dt>
+	    		Where can I find a national park?
+	    	</dt>
+	    	<dd class='smart-ass'>
+	    		<a href="www.google.com">www.google.com</a>
+	    	</dd>
+	    	<dt>
+	    		What can I expect to find in a national park?
+	    	</dt>
+			<dd>
+				Nature. People. Homeless drunks who failed at life in one way or another. Also, my Uncle Jimbo.
+			</dd>
+	    	<dt>
+	    		Who keeps national parks safe and clean?
+	    	</dt>
+			<dd>
+				People who aren't paid enough or paid way too much.
+			</dd>
+	    	<dt>
+	    		Which is the best national park?
+	    	</dt>
+			<dd>
+				The one without my Uncle Jimbo. He's crazy.
+			</dd>
+	    	<dt>
+	    		Why do people come to visit national parks?
+	    	</dt>
+			<dd>
+				<a href="http://www.livescience.com/17417-marijuana-growers-national-forests.html">Buy drugs.</a>
+			</dd>
+	    	<dt>
+	    		Is this a real FAQ?
+	    	</dt>
+	    	<dd>
+				Nothing is real.
+			</dd>
+	    </dl>
+		<button class='btn btn-success reveal'>Show/Hide</button>
+    </div>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery-1.11.0.js"></script>
+    <script>
+    	$('dd').addClass('invisible');
+
+    	$('dt').click(function() {
+    		$(this).next().toggleClass('invisible');
+    	});
+
+    	$('.reveal').click(function() {
+    		$('dt').next().toggleClass('invisible');
+    	});
+    </script>
+</body>
+</html>

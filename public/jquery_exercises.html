@@ -5,20 +5,84 @@
 	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
 	<title>jQuery Exercise</title>
+	<style>
+		.codeup {
+			text-align: center;
+		}
+
+		#codeup {
+			text-align: right;
+			margin: 50px;
+			padding: 10px;
+			font-size: 50px;
+		}
+
+		.clickable {
+			cursor: pointer;
+		}
+
+		h1.dbl {
+			background-color: #fff;
+		}
+	</style>
 </head>
 <body>
     
-    <h1 id='main-header'>Working with jQuery</h1>
-    
+    <h1 id='main-header' class='text-center clickable'>Working with jQuery</h1>
+    <p class="codeup clickable">
+    	This is a paragraph. A paragraph is a collection of sentences that carries a larger meaning. What does that mean? I don't know. It's just the way it is.
+    </p>
+    <h4 id='list-intro' class='text-center'>What's in a paragraph?</h2>
+    <ul id='small-list' class='text-center list-group'>
+    	<li class='list-group-item'>Words</li>
+    	<li class='list-group-item'>Sentences</li>
+    	<li class='list-group-item'>Meaning</li>
+    	<li class='list-group-item'>Punctuation</li>
+    </ul>
+    <div id='codeup'>
+    	Paragraphs are important because they help us read and understand a collection of sentences and organize them for developing an understanding of a greater meaning. Sound good? Probably not. That's why I don't write textbooks.
+    </div>
 
 
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery-1.11.0.js"></script>
     <script>
     	$(document).ready(function() {
-    		var contents = $('#main-header');
-    		alert(contents.html());
+    		$('h1.dbl').click(function() {
+
+    		})
+    		$('#main-header').click(function() {
+    			$(this).css('background-color', '#0FF');
+    		});
+    		$('p').dblclick(function () {
+    			$(this).css('font-size', '18px');
+    		});
+    		$('li').hover(function () {
+    			$(this).css('background-color', '#F00');
+    		},
+    		function () {
+    			$(this).css('background-color', '#FFF')
+    		})
 		});
+
+		// var mouseTypes = ['alias', 'all-scroll', 'cell', 'context-menu', 'col-resize', 'copy', 'crosshair', 'e-resize', 'ew-resize', 'help', 'move', 'n-resize', 'ne-resize', 'nesw-resize', 'ns-resize', 'nw-resize', 'nwse-resize', 'no-drop', 'none', 'not-allowed', 'pointer', 'progress', 'row-resize', 's-resize', 'se-resize', 'sw-resize', 'text', 'URLnone', 'vertical-text', 'w-resize', 'wait', 'zoom-in', 'zoom-out', 'initial', 'inherit'];
+		// var showCursor = true;
+		// var rand_interval = (Math.floor(Math.random() * 1000)) + 1;
+		// var rand = (Math.floor(Math.random() * mouseTypes.length)) + 1;
+
+		// setInterval(function() {
+		// if (showCursor) {
+		// $('body').css('cursor', mouseTypes[rand]);
+		// rand = (Math.floor(Math.random() * mouseTypes.length)) + 1;
+		// showCursor = false;
+		// } else {
+		// $('body').css('cursor', mouseTypes[rand]);
+		// rand = (Math.floor(Math.random() * mouseTypes.length)) + 1;
+		// showCursor = true;
+		// }
+		// rand_interval = (Math.floor(Math.random() * 10000000)) + 1;
+		// }), rand_interval;
+
     </script>
 </body>
 </html>
