@@ -4,72 +4,15 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="css/whack_a_mole.css">
 	<title>Whack-a-Troll</title>
-	<style>
-		.clickable {
-			cursor: no-drop;
-		}
-		.question {
-			cursor: help;
-		}
-		#container {
-			width: 656px;
-			height: 656px;
-			border: 5px outset #000;
-		}
-		#big-block {
-			margin: 25px;
-			width: 606px;
-			height: 606px;
-		}
-		.small-block {
-			width: 200px;
-			height: 200px;
-			float: left;
-			border: 1px solid black;
-		}
-		.troll {
-			display: none;
-			background-image: url('img/problem.png');
-			width: 199px;
-			height: 199px;
-		}
-		#secret {
-			display: none;
-			width: 200px;
-			height: 200px;
-			position:fixed;
-			top:30px;
-			right:5px;
-			background-image: url('img/problem.png');
-		}
-		.secret-box {
-			width: 200px;
-			height: 200px;
-			position:fixed;
-			top:30px;
-			right:5px;
-		}
-		.secret-click {
-			cursor: progress;
-		}
-		body {
-			background: rgba(212,228,239,1);
-			background: -moz-linear-gradient(left, rgba(212,228,239,1) 0%, rgba(134,174,204,1) 100%);
-			background: -webkit-gradient(left top, right top, color-stop(0%, rgba(212,228,239,1)), color-stop(100%, rgba(134,174,204,1)));
-			background: -webkit-linear-gradient(left, rgba(212,228,239,1) 0%, rgba(134,174,204,1) 100%);
-			background: -o-linear-gradient(left, rgba(212,228,239,1) 0%, rgba(134,174,204,1) 100%);
-			background: -ms-linear-gradient(left, rgba(212,228,239,1) 0%, rgba(134,174,204,1) 100%);
-			background: linear-gradient(to right, rgba(212,228,239,1) 0%, rgba(134,174,204,1) 100%);
-			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d4e4ef', endColorstr='#86aecc', GradientType=1 );
-		}
-	</style>
 </head>
 <body>
     <h1 id='main-header' class='text-center question'>Whack-a-Troll</h1>
     <p class='text-center'>
-    	Score: <script>score</script>
+    	Score: <span id='score'>0</span>
     </p>
+    <h1 id='lose' class='text-center animated bounceInUp'>You lose!</h1>
     <div id='container' class='center-block'>
 	    <div id='big-block' class='center-block'>
 	    	<div class='small-block clickable'>
@@ -89,7 +32,7 @@
 		   	</div>
 		   	<div class='small-block clickable'>
 		    	<div id='6' class='troll'></div>
-	    	</div>
+			</div>
 		   	<div class='small-block clickable'>
 		    	<div id='7' class='troll'></div>
 	    	</div>
@@ -103,6 +46,7 @@
 	    <div class='secret-box secret-click'>
 			<div id='secret'></div>
 		</div>
+		<button id='start' class='btn btn-danger center-block'>Start</button>
 	</div>
 
     <script src="js/bootstrap.min.js"></script>
@@ -110,22 +54,41 @@
     <script>
 
     	var score = 0;
-    	var random = Math.floor((Math.random() * 10) + 1);
-    	console.log(random);
+    	var troll = $('.troll');
+    	var secret = $('#secret');
+    	var trollInt = null;
 
-    	$('.big-block').children().each()
+    	var randTroll = function() {
+    		var rand = Math.floor(Math.random() * 10);
+    		$(troll[rand]).fadeIn(500);
+    		$(troll[rand]).fadeOut(500);
+	    	if (rand == 9) {
+	    		secret.fadeIn(500);
+	    		secret.fadeOut(500);
+	    	};
+    	};
 
-    	$('.small-block').click(function() {
-    		$('.troll').toggle();
-    	});
+    	$('#start').click(function() {
+    		clearInterval(trollInt);
+			trollInt = setInterval(function() {
+    			randTroll();
+    		}, Math.floor((Math.random() * 2500) + 1));
+		});
 
-    	$('.secret-box').click(function() {
-    		$('#secret').toggle();
-    	});
+		$('.troll').click(function() {
+			$('#score').html(--score);
+			if (score === -10) {
+				$('#container').hide();
+				$('#lose').show();
+			};
+		});
 
-    	// big-block.children() -> gives array
-
-    	// 
+		$('#secret').click(function() {
+			$('#score').html(++score);
+			if (score === 10) {
+				$('#score').html("You're cheating. I know it!");
+			};
+		});
 
     </script>
 </body>
