@@ -22,10 +22,30 @@
 		dd {
 			font-size: 1.2em;
 		}
+		.animated { 
+		    -webkit-animation-duration: 1s; 
+		    animation-duration: 1s; 
+		    -webkit-animation-fill-mode: both; 
+		    animation-fill-mode: both; 
+		    -webkit-animation-timing-function: linear; 
+		    animation-timing-function: linear; 
+		} 
+
+		@-webkit-keyframes flash { 
+		    0%, 50%, 100% {opacity: 1;} 
+		    25%, 75% {opacity: 0;} 
+		} 
+		@keyframes flash { 
+		    0%, 50%, 100% {opacity: 1;} 
+		    25%, 75% {opacity: 0;} 
+		} 
+		.flash { 
+		    -webkit-animation-name: flash; 
+		    animation-name: flash; 
+		}
 	</style>
 </head>
 <body>
-    
 	<div class='container text-center'>
     	<h1 class='crosshair'>FAQs</h1>
 	    <dl class='click'>
@@ -79,18 +99,65 @@
 			</dd>
 	    </dl>
 		<button class='btn btn-success reveal'>Show/Hide</button>
-    </div>
+		<h2><span class='click' id='good-word'>Smart</span><span id='bad-word'>-ass</span> Facts</h2>
+		<div id="animated-example" class="animated flash">
+			<h3 class="click" id='hdr1'>Yellowstone</h3>
+		</div>
+		<ul class='list-group' id='gr1'>
+			<li class='list-group-item'>$25 entrance fee for nature</li>
+			<li class='list-group-item'>Visitors' Center sucks</li>
+			<li class='list-group-item'>Rude rangers</li>
+			<li class='list-group-item'>Not safe for babies (adult or otherwise)</li>
+			<li class='list-group-item'>Sites to explore too far away, legs hurt</li>
+		</ul>
+		<div id="animated-example" class="animated flash">
+			<h3 class="click" id='hdr2'>Crater Lake</h3>
+		</div>
+		<ul class='list-group' id='gr2'>
+			<li class='list-group-item'>Cyclists are meanies</li>
+			<li class='list-group-item'>When there is a fire, it's hard to see</li>
+			<li class='list-group-item'>Charge $10 to see fog and snow</li>
+			<li class='list-group-item'>Xanterra. I am disappoint.</li>
+			<li class='list-group-item'>Not park employees' job to direct lost people</li>
+		</ul>
+	</div>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery-1.11.0.js"></script>
     <script>
-    	$('dd').addClass('invisible');
+    	$('dd').css('display', 'none');
+    	$('li').hide();
+    	$('#bad-word').hide();
+
+    	$('#good-word').click(function() {
+    		$('#bad-word').toggle();
+    	});
 
     	$('dt').click(function() {
-    		$(this).next().toggleClass('invisible');
+    		$(this).next().toggle();
     	});
 
     	$('.reveal').click(function() {
-    		$('dt').next().toggleClass('invisible');
+    		$('dt').next().toggle();
+    	});
+
+    	$('#hdr1').click(function() {
+    		$('#gr1').children().each(function(index) {
+    			var $this = $(this);
+    			var time = 100 + (index * 100);
+    			setTimeout(function () {
+    				$this.fadeToggle();
+    			}, time);
+    		});
+    	});
+
+    	$('#hdr2').click(function() {
+    		$('#gr2').children().each(function(index) {
+    			var $this = $(this);
+    			var time = 100 + (index * 100);
+    			setTimeout(function() {
+    				$this.fadeToggle();
+    			}, time);	
+    		});
     	});
     </script>
 </body>
