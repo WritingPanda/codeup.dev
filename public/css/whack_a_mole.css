@@ -1,0 +1,112 @@
+.clickable {
+	cursor: no-drop;
+}
+.question {
+	cursor: help;
+}
+#container {
+	width: 656px;
+	height: 656px;
+	border: 5px outset #000;
+}
+#big-block {
+	margin: 25px;
+	width: 606px;
+	height: 606px;
+}
+.small-block {
+	width: 200px;
+	height: 200px;
+	float: left;
+	border: 1px solid black;
+}
+.troll {
+	display: none;
+	background-image: url('../img/problem.png');
+	width: 199px;
+	height: 199px;
+}
+#secret {
+	display: none;
+	width: 200px;
+	height: 200px;
+	position:fixed;
+	top:30px;
+	right:5px;
+	background-image: url('../img/success.png');
+}
+.secret-box {
+	width: 200px;
+	height: 200px;
+	position:fixed;
+	top:30px;
+	right:5px;
+}
+.secret-click {
+	cursor: progress;
+}
+body {
+	background: rgba(212,228,239,1);
+	background: -moz-linear-gradient(left, rgba(212,228,239,1) 0%, rgba(134,174,204,1) 100%);
+	background: -webkit-gradient(left top, right top, color-stop(0%, rgba(212,228,239,1)), color-stop(100%, rgba(134,174,204,1)));
+	background: -webkit-linear-gradient(left, rgba(212,228,239,1) 0%, rgba(134,174,204,1) 100%);
+	background: -o-linear-gradient(left, rgba(212,228,239,1) 0%, rgba(134,174,204,1) 100%);
+	background: -ms-linear-gradient(left, rgba(212,228,239,1) 0%, rgba(134,174,204,1) 100%);
+	background: linear-gradient(to right, rgba(212,228,239,1) 0%, rgba(134,174,204,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d4e4ef', endColorstr='#86aecc', GradientType=1 );
+}
+#score {
+	font-size: 2em;
+}
+p {
+	font-size: 1.5em;
+}
+#lose {
+	color: #F00;
+	font-size: 5em;
+	display: none;
+}
+.animated { 
+    -webkit-animation-duration: 2.3s; 
+    animation-duration: 2.3s; 
+    -webkit-animation-fill-mode: both; 
+    animation-fill-mode: both; 
+    -webkit-animation-timing-function: linear; 
+    animation-timing-function: linear; 
+} 
+@-webkit-keyframes bounceInUp { 
+    0% { 
+        opacity: 0; 
+        -webkit-transform: translateY(2000px); 
+    } 
+    60% { 
+        opacity: 1; 
+        -webkit-transform: translateY(-30px); 
+    } 
+    80% { 
+        -webkit-transform: translateY(10px); 
+    } 
+    100% { 
+        -webkit-transform: translateY(0); 
+    } 
+} 
+@keyframes bounceInUp { 
+    0% { 
+        opacity: 0; 
+        transform: translateY(2000px); 
+    } 
+    60% { 
+        opacity: 1; 
+        transform: translateY(-30px); 
+    } 
+    80% { 
+        transform: translateY(10px); 
+    } 
+    100% { 
+        transform: translateY(0); 
+    } 
+} 
+.bounceInUp { 
+    -webkit-animation-name: bounceInUp; 
+    animation-name: bounceInUp; 
+}
