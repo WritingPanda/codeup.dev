@@ -70,7 +70,6 @@
 			$('#start').hide();
 			$('#lose').hide();
 			$('#big-block').show();
-			clearInterval(trollInt);
 			trollInt = setInterval(function() {
     			randTroll();
     		}, 1850);
@@ -91,7 +90,6 @@
 			troll.hide();
 			$('#score').html(++score);
 		});
-
 
 		// http://lmgtfy.com/?q=what+do+I+do+with+my+life+now%3F
 
