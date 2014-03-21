@@ -4,7 +4,7 @@
 	$successmsg = NULL;
 
 	// connect to the db
-	$mysqli = new mysqli('127.0.0.1', 'omar', 'geekdom1100', 'todo_list');
+	$mysqli = new mysqli('127.0.0.1', '***', '****', 'todo_list');
 
 	// Check for errors
 	if ($mysqli->connect_errno) {
