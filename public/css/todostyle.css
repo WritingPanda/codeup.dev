@@ -1,40 +1,10 @@
 h1 {
-	text-decoration: underline;
 	font-size: 3.5em;
 }
 
 body {
-	background-color: #161840;
 	color: #F0E8E5;
 	font-family: sans-serif;
-}
-
-ul {
-	list-style: decimal-leading-zero;
-}
-
-div {
-	margin-left: 200px;
-	margin-bottom: 10px;
-	margin-right: 400px;
-	margin-top: 10px;
-}
-
-.newitem {
-	font-size: 1.5em;
-}
-
-.upload {
-	font-size: 1.5em;
-}
-
-input, textarea {
-	background-color: #161840;
-}
-
-a:hover {
-	color: #DEAF0B;
-	text-decoration: none;
 }
 
 a:active {
@@ -42,20 +12,15 @@ a:active {
 }
 
 .trademark {
-	font-family: 'Roboto Slab', serif;
 	font-size: 1em;
 	color: #F0E8E5;
+	position: fixed;
+	bottom: 1px;
+	left: 1px;
 }
-
-.imgclick {
-	transform-style: preserve-3d;
-	-webkit-transform-style: preserve-3d;
+td {
+	font-size: 2em;
 }
-
-img:focus, img:active, img:visited {
-	border: 1px solid black;
-	margin-left: 10px;
-	transform: rotateY(360deg);
-	-webkit-transform:rotateY(360deg);
-	transition:1.2s;
+#add-items {
+	position: absolute;
 }

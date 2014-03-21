@@ -85,7 +85,7 @@
 
 		$('#secret').click(function() {
 			$('#score').html(++score);
-			if (score === 10) {
+			if (score >= 10) {
 				$('#score').html("You're cheating. I know it!");
 			};
 		});

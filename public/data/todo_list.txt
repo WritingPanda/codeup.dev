@@ -15,4 +15,3 @@ Train a Markov chain
 Annihilate my enemies
 Review lesson
 Learn how to code
-Get a great job
