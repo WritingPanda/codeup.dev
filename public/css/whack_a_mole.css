@@ -1,16 +1,10 @@
 .clickable {
-	cursor: no-drop;
+	cursor: pointer;
 }
 .question {
 	cursor: help;
 }
-#container {
-	width: 656px;
-	height: 656px;
-	border: 5px outset #000;
-}
 #big-block {
-	margin: 25px;
 	width: 606px;
 	height: 606px;
 }
@@ -22,40 +16,21 @@
 }
 .troll {
 	display: none;
-	background-image: url('../img/problem.png');
+	background-image: url('../img/flappysmall.png');
+	background-repeat: no-repeat;
 	width: 199px;
-	height: 199px;
-}
-#secret {
-	display: none;
-	width: 200px;
-	height: 200px;
-	position:fixed;
-	top:30px;
-	right:5px;
-	background-image: url('../img/success.png');
-}
-.secret-box {
-	width: 200px;
-	height: 200px;
-	position:fixed;
-	top:30px;
-	right:5px;
-}
-.secret-click {
-	cursor: progress;
+	height: 140px;
+	margin-top: 12%;
 }
 body {
-	background: rgba(212,228,239,1);
-	background: -moz-linear-gradient(left, rgba(212,228,239,1) 0%, rgba(134,174,204,1) 100%);
-	background: -webkit-gradient(left top, right top, color-stop(0%, rgba(212,228,239,1)), color-stop(100%, rgba(134,174,204,1)));
-	background: -webkit-linear-gradient(left, rgba(212,228,239,1) 0%, rgba(134,174,204,1) 100%);
-	background: -o-linear-gradient(left, rgba(212,228,239,1) 0%, rgba(134,174,204,1) 100%);
-	background: -ms-linear-gradient(left, rgba(212,228,239,1) 0%, rgba(134,174,204,1) 100%);
-	background: linear-gradient(to right, rgba(212,228,239,1) 0%, rgba(134,174,204,1) 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d4e4ef', endColorstr='#86aecc', GradientType=1 );
+	background-image: url('../img/background.png');
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 #score {
+	font-size: 2em;
+}
+#timer {
 	font-size: 2em;
 }
 p {
