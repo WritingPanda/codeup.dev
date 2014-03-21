@@ -1,5 +1,9 @@
 <?php
 
+	$errormsg = NULL;
+	$successmsg = NULL;
+
+	// connect to the db
 	$mysqli = new mysqli('127.0.0.1', 'omar', 'geekdom1100', 'todo_list');
 
 	// Check for errors
@@ -7,30 +11,40 @@
 	    throw new Exception('Failed to connect to MySQL: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error);
 	}
 
-	class InvalidInputException extends Exception {}
+	if (!empty($_POST)) {
+		if (isset($_POST['todo'])) {
+			if (!empty($_POST['todo']) != "") {
+				$todo = substr($_POST['todo'], 0, 200);
+				// add to db
+				$stmt = $mysqli->prepare("INSERT INTO todos (item) VALUES (?);");
+				$stmt->bind_param("s", $todo);
+				$stmt->execute();
 
-	// 4. Add additional functionality, such as a delete function
-	// 5. Move all functions into a class
-	// 6. Require the class document
-	// 7. Test and debug after every step
+				$successmsg = "Todo item was added successfully!";
+			} else {
+				$errormsg = "Please enter a todo item.";
+			}
+		} elseif (!empty($_POST['remove'])) {
+			// remove item from DB
+			$stmt = $mysqli->prepare("DELETE FROM todos WHERE id = ?;");
+			$stmt->bind_param("i", $_POST['remove']);
+			$stmt->execute();
 
-	if (!empty($_POST['newitem'])) {
-		$stmt = $mysqli->prepare("INSERT INTO task (content) VALUES (?)");
-		$stmt->bind_param("s", $_POST['newitem']);
-		$stmt->execute();
+			$successmsg = "Todo item was removed successfully.";
+		}
 	}
 
-	$result = $mysqli->query("SELECT content FROM task");	
+	$itemsPerPage = 5;
+	$currentPage = !empty($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1;
+	$offset = ($currentPage - 1) * $itemsPerPage;
 
-	if (isset($_POST['remove'])) {
-		$stmt = $mysqli->prepare("DELETE FROM task WHERE id = ?");
-		$stmt->bind_param('i', $_GET['remove']);
-		$stmt->execute();
-	}
+	$todos = $mysqli->query("SELECT * FROM todos LIMIT $itemsPerPage OFFSET $offset;");
+	$allTodos = $mysqli->query("SELECT * FROM todos;");
 
-	$mysqli->close();
+	$maxPage = ceil($allTodos->num_rows / $itemsPerPage);
 
-	var_dump($_POST);
+	$prevPage = $currentPage > 1 ? $currentPage - 1 : null;
+	$nextPage = $currentPage < $maxPage ? $currentPage + 1 : null;
 
 ?>
 
@@ -38,70 +52,74 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" type="text/css" href="/css/superhero-bootstrap.css">
 	<link rel="stylesheet" href="/css/todostyle.css" type='text/css'>
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans|Oxygen|Roboto+Slab' rel='stylesheet' type='text/css'>
 	<script src="/js/bootstrap.js"></script>
-	<title>Todo List</title>
+	<title>Do All the Things</title>
 </head>
 <body>
-	<div>
+	<div class="container">
+		<? if (!empty($successmsg)): ?>
+			<div class='alert alert-success'><?= $successmsg; ?></div>
+		<? endif; ?>
+		<? if (!empty($errormsg)): ?>
+			<div class='alert alert-danger'><?= $errormsg; ?></div>
+		<? endif; ?>
+
+	<div class='center-block'>
 		<h1>TODO List</h1>
 		<a href="#" id="imgclick"><img src='img/do-all-things.png' width=200 height=150 class='img-rounded'></a>
 	</div>
 	<br>
-	<div class='newitem'>
-		<form method='POST' id='additem' action='todo.php'>
-		<ul>
-			<?php 
+		<table class="table">
+		<? while ($todo = $todos->fetch_assoc()): ?>
+			<tr>
+				<td><?= $todo['item']; ?></td>
+				<td><button class="btn btn-danger btn-sm pull-left" onclick="removeById(<?= $todo['id']; ?>)">Remove</button></td>
+			</tr>
+		<? endwhile; ?>
+		</table>
 
-			try{
-				if (isset($_POST['newitem']) && empty($_POST['newitem'])) {
-					throw new InvalidInputException('No tasks were entered in the todo list. <strong>Please enter a task.</strong>');
-				}
-
-				if (isset($_POST['newitem']) && strlen($_POST['newitem']) > 240) {
-					throw new InvalidInputException('Task is longer than 240 characters. <strong>Please make it shorter.</strong>');
-				}
-			} catch (InvalidInputException $e) {
-				echo $e->getMessage();
-			}
-
-			while ($row = $result->fetch_array(MYSQLI_NUM)) {
-				foreach ($row as $key => $task) {
-					echo "<li>" . htmlspecialchars(strip_tags($task)) . ' ' . "<button class='btn btn-danger' onclick='removebyID($key)'><span class='glyphicon glyphicon-ok-circle'></span></button></li>";
-				}
-			}
-			
-			?>
-		</ul>
-	    	<script>
-		    	var form = document.getElementById('removeForm');
-		    	var removeID = document.getElementById('removeID');
-
-		    	function removebyID(id) {
-		    		removeID.value = id;
-		    		form.submit();
-		    	}
-		    </script>
+		<? if ($prevPage != null): ?>
+			<a class="pull-left btn btn-default" href="?page=<?= $prevPage; ?>">&lt; Previous</a>
+		<? endif; ?>
+		
+		<? if ($nextPage != null): ?>
+			<a class="pull-left btn btn-default" href="?page=<?= $nextPage; ?>">Next &gt;</a>
+		<? endif; ?>
 		<br>
-			<p>
-				<label for='newitem'>Task: </label>
-				<input id='newitem' name='newitem' type='text' placeholder='Enter task' autofocus='autofocus'>
-			</p>
-			<p>
-				<button id='newitem' class="btn btn-primary" type="submit">Add todo</button>
-			</p>
-		</form>
-		<form method="POST" id="removeForm" action="todo.php">
-	    	<input id="removeID" type="hidden" name="remove" value="">
-	    </form>
+		<div id='add-items'>
+			<h2>Add Items</h2>
+			<form class="form-inline" role="form" action="todo.php" method="POST">
+				<div class="form-group has-error">
+					<label class="sr-only" for="exampleInputEmail2">Todo Item</label>
+					<input type="text" name="todo" class="form-control" placeholder="Enter todo item" autofocus='autofocus'>
+				</div>
+				<button type="submit" class="btn btn-default">Add Todo</button>
+			</form>
+		</div>
 	</div>
-	<div>
+	<form id="removeForm" action="todo.php" method="post">
+		<input id="removeId" type="hidden" name="remove" value="">
+	</form>
+	<br>
 		<footer>
 			<p class='trademark'>&copy; 2014 <a href="www.writtenbyapanda.com" target="_blank">Written by a Panda</a></p>
 		</footer>
 	</div>
+	<script>
+		
+		var form = document.getElementById('removeForm');
+		var removeId = document.getElementById('removeId');
+
+		function removeById(id) {
+			if (confirm('Are you sure you want to remove item ' + id + '?')) {
+				removeId.value = id;
+				form.submit();
+			}
+		}
+
+	</script>
 </body>
 </html>
