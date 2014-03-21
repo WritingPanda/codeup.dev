@@ -5,15 +5,15 @@
 	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="/css/bootstrap-theme.min.css">
 	<link rel="stylesheet" href="css/whack_a_mole.css">
-	<title>Whack-a-Troll</title>
+	<title>Whack-a-Bird</title>
 </head>
 <body>
-    <h1 id='main-header' class='text-center question'>Whack-a-Troll</h1>
+    <h1 id='main-header' class='text-center question'>Whack-a-Bird</h1>
     <p class='text-center'>
-    	Score: <span id='score'>0</span>
+    	Score: <span id='score'>0</span> Timer: <span id='timer'>5</span>
     </p>
     <h1 id='lose' class='text-center animated bounceInUp'>You lose!</h1>
-    <div id='container' class='center-block'>
+		<button id='start' class='btn btn-danger center-block'>Start</button>
 	    <div id='big-block' class='center-block'>
 	    	<div class='small-block clickable'>
 		    	<div id='1' class='troll'></div>
@@ -43,52 +43,57 @@
 		    	<div id='9' class='troll'></div>
 	    	</div>
 	    </div>
-	    <div class='secret-box secret-click'>
-			<div id='secret'></div>
-		</div>
-		<button id='start' class='btn btn-danger center-block'>Start</button>
-	</div>
-
-    <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery-1.11.0.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <script>
 
     	var score = 0;
     	var troll = $('.troll');
-    	var secret = $('#secret');
     	var trollInt = null;
+    	var time = $('#timer').html();
 
-    	var randTroll = function() {
-    		var rand = Math.floor(Math.random() * 10);
-    		$(troll[rand]).fadeIn(500);
-    		$(troll[rand]).fadeOut(500);
-	    	if (rand == 9) {
-	    		secret.fadeIn(500);
-	    		secret.fadeOut(500);
-	    	};
+    	function randTroll() {
+    		var rand = Math.floor(Math.random() * 9);
+    		$(troll[rand]).fadeIn();
+    		$(troll[rand]).fadeOut();
     	};
 
-    	$('#start').click(function() {
-    		clearInterval(trollInt);
+		function end() {
+			$('#big-block').hide();
+			$('#lose').show();
+			$('#start').show();
+			time = 5;
+			clearInterval(timer);
+		};
+
+		function begin() {
+			$('#start').hide();
+			$('#lose').hide();
+			$('#big-block').show();
+			clearInterval(trollInt);
 			trollInt = setInterval(function() {
     			randTroll();
-    		}, Math.floor((Math.random() * 2500) + 1));
-		});
+    		}, 1850);
+    		clearInterval(timer);
+    		time = 5;
+    		timer = setInterval(function() {
+    			$('#timer').html(--time);
+    		}, 1000);
+		};
+
+		if ($('#timer').html() == 2) {
+			end();
+		};
+
+		$('#start').click(begin);
 
 		$('.troll').click(function() {
-			$('#score').html(--score);
-			if (score === -10) {
-				$('#container').hide();
-				$('#lose').show();
-			};
+			troll.hide();
+			$('#score').html(++score);
 		});
 
-		$('#secret').click(function() {
-			$('#score').html(++score);
-			if (score >= 10) {
-				$('#score').html("You're cheating. I know it!");
-			};
-		});
+
+		// http://lmgtfy.com/?q=what+do+I+do+with+my+life+now%3F
 
     </script>
 </body>
