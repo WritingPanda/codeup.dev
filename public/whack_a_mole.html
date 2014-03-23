@@ -10,88 +10,84 @@
 <body>
     <h1 id='main-header' class='text-center question'>Whack-a-Bird</h1>
     <p class='text-center'>
-    	Score: <span id='score'>0</span> Timer: <span id='timer'>5</span>
+    	Score: <span id='score'>0</span> Timer: <span id='timer'>30</span>
     </p>
-    <h1 id='lose' class='text-center animated bounceInUp'>You lose!</h1>
-		<button id='start' class='btn btn-danger center-block'>Start</button>
-	    <div id='big-block' class='center-block'>
-	    	<div class='small-block clickable'>
-		    	<div id='1' class='troll'></div>
-		    </div>
-		    <div class='small-block clickable'>
-		    	<div id='2' class='troll'></div>
-		   	</div>
-	    	<div class='small-block clickable'>
-		    	<div id='3' class='troll'></div>
-		   	</div>
-	    	<div class='small-block clickable'>
-		    	<div id='4' class='troll'></div>
-		   	</div>
-		   	<div class='small-block clickable'>
-		    	<div id='5' class='troll'></div>
-		   	</div>
-		   	<div class='small-block clickable'>
-		    	<div id='6' class='troll'></div>
-			</div>
-		   	<div class='small-block clickable'>
-		    	<div id='7' class='troll'></div>
-	    	</div>
-		   	<div class='small-block clickable'>
-		    	<div id='8' class='troll'></div>		    	
-		    </div>
-		    <div class='small-block clickable'>
-		    	<div id='9' class='troll'></div>
-	    	</div>
+    <h1 id='lose' class='text-center animated bounceInUp'>Try again?</h1>
+	<button id='start' class='btn btn-danger center-block'>Start</button>
+    <div id='big-block' class='center-block'>
+    	<div class='small-block clickable'>
+	    	<div id='1' class='bird'></div>
 	    </div>
+	    <div class='small-block clickable'>
+	    	<div id='2' class='bird'></div>
+	   	</div>
+    	<div class='small-block clickable'>
+	    	<div id='3' class='bird'></div>
+	   	</div>
+    	<div class='small-block clickable'>
+	    	<div id='4' class='bird'></div>
+	   	</div>
+	   	<div class='small-block clickable'>
+	    	<div id='5' class='bird'></div>
+	   	</div>
+	   	<div class='small-block clickable'>
+	    	<div id='6' class='bird'></div>
+		</div>
+	   	<div class='small-block clickable'>
+	    	<div id='7' class='bird'></div>
+    	</div>
+	   	<div class='small-block clickable'>
+	    	<div id='8' class='bird'></div>		    	
+	    </div>
+	    <div class='small-block clickable'>
+	    	<div id='9' class='bird'></div>
+    	</div>
+    </div>
     <script src="js/jquery-1.11.0.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script>
 
     	var score = 0;
-    	var troll = $('.troll');
-    	var trollInt = null;
+    	var bird = $('.bird');
+    	var birdInt = null;
     	var time = $('#timer').html();
 
-    	function randTroll() {
+    	function randBird() {
     		var rand = Math.floor(Math.random() * 9);
-    		$(troll[rand]).fadeIn();
-    		$(troll[rand]).fadeOut();
+    		$(bird[rand]).fadeIn();
+    		$(bird[rand]).fadeOut();
     	};
 
 		function end() {
-			$('#big-block').hide();
-			$('#lose').show();
-			$('#start').show();
-			time = 5;
+			clearInterval(birdInt);
 			clearInterval(timer);
+			window.location.assign("http://lmgtfy.com/?q=what+do+I+do+with+my+life+now%3F");
 		};
 
 		function begin() {
 			$('#start').hide();
 			$('#lose').hide();
 			$('#big-block').show();
-			trollInt = setInterval(function() {
-    			randTroll();
+			clearInterval(birdInt);
+			birdInt = setInterval(function() {
+    			randBird();
     		}, 1850);
     		clearInterval(timer);
-    		time = 5;
+    		time = 30;
     		timer = setInterval(function() {
     			$('#timer').html(--time);
+    			if (time == 0) {
+					end();
+				};
     		}, 1000);
-		};
-
-		if ($('#timer').html() == 2) {
-			end();
 		};
 
 		$('#start').click(begin);
 
-		$('.troll').click(function() {
-			troll.hide();
+		$('.bird').click(function() {
+			bird.hide();
 			$('#score').html(++score);
 		});
-
-		// http://lmgtfy.com/?q=what+do+I+do+with+my+life+now%3F
 
     </script>
 </body>

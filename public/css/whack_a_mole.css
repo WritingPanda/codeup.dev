@@ -14,7 +14,7 @@
 	float: left;
 	border: 1px solid black;
 }
-.troll {
+.bird {
 	display: none;
 	background-image: url('../img/flappysmall.png');
 	background-repeat: no-repeat;
