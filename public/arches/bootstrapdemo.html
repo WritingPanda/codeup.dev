@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<title>Bootstrap Demo</title>
+	</head>
+	<body>
+		<div class="container">
+			<p id="color">
+				I am getting bigger.
+			</p>
+
+			<button class="btn btn-primary" id="changeColor" name="btn1">Change size</button>
+			<br>
+			<button class="btn btn-danger" id="remove" name="btn2">Remove Event Listener</button>
+		</div>
+
+		<script>
+
+			var colorP = document.getElementById("color");
+
+			var changeColorListener = function() {
+				colorP.style["font-size"] = "3em";
+				console.log("Looks, it's bigger!");
+			};
+
+			var btn1 = document.getElementById("changeColor");
+
+        	btn1.addEventListener('click', changeColorListener);
+
+        	var btn2 = document.getElementById("remove");
+
+        	var remover = function() {
+        		btn1.removeEventListener('click', changeColorListener);
+        		console.log("You can't make it bigger anymore. BAH HAHAHAHA! YOU SUCK!");
+        	};
+
+        	btn2.addEventListener('click', remover);
+
+		</script>
+		
+	</body>
+</html>

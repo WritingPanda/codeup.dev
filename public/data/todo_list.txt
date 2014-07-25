@@ -1,11 +1,4 @@
 hello
-Do this
-can you see this?
-I cannot see this
-This is crazy
-crazy cool, you mean
-don't be a jerk
-okay, I won't
 Buy some milk
 Feed the dogs
 Make the bed
@@ -15,3 +8,8 @@ Train a Markov chain
 Annihilate my enemies
 Review lesson
 Learn how to code
+testing
+one two three
+oh yeah
+this is awesome
+something goes here

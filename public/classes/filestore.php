@@ -10,14 +10,14 @@ class Filestore {
     // Sets the filename as soon as a new instance is instatiated
     public function __construct($filename = '') {
         $this->filename = $filename;
-        if (substr($filename, -3) == 'csv') {
+        if (substr($filename, -3) === 'csv') {
             $this->is_csv = TRUE;
         }
     }
 
     // Setting a read method to read either txt or csv files, depending on whether file is a csv or not
     public function read() {
-        if ($this->is_csv == TRUE) {
+        if ($this->is_csv) {
             return $this->read_csv();
         } else {
             return $this->read_lines();
@@ -26,7 +26,7 @@ class Filestore {
 
     // Setting a write method to write to either a txt of csv file, depending on whether file is a csv or not
     public function write($array) {
-        if ($this->is_csv == TRUE) {
+        if ($this->is_csv) {
             return $this->write_csv($array);
         } else {
             return $this->write_lines($array);
@@ -34,10 +34,9 @@ class Filestore {
     }
 
     // Returns array of lines in $this->filename
-    protected function read_lines() {
+    private function read_lines() {
         $handle = fopen($this->filename, 'r');
-        $size = filesize($this->filename);
-        $contents = fread($handle, $size);
+        $contents = fread($handle, filesize($this->filename));
         $contents_array = explode("\n", $contents);
         fclose($handle);
         return $contents_array;

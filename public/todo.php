@@ -1,125 +1,95 @@
-<?php
+<?php 
 
-	$errormsg = NULL;
-	$successmsg = NULL;
+// Get new instance of PDO object
+$dbc = new PDO('mysql:host=127.0.0.1;dbname=todos', 'codeup_omar', 'codeup2014');
 
-	// connect to the db
-	$mysqli = new mysqli('127.0.0.1', '***', '****', 'todo_list');
+// Tell PDO to throw exceptions on error
+$dbc->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-	// Check for errors
-	if ($mysqli->connect_errno) {
-	    throw new Exception('Failed to connect to MySQL: (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error);
-	}
+$todoList = [];
+$limit = 5;
 
-	if (!empty($_POST)) {
-		if (isset($_POST['todo'])) {
-			if (!empty($_POST['todo']) != "") {
-				$todo = substr($_POST['todo'], 0, 200);
-				// add to db
-				$stmt = $mysqli->prepare("INSERT INTO todos (item) VALUES (?);");
-				$stmt->bind_param("s", $todo);
-				$stmt->execute();
+function getOffset() {
+    if (isset($_GET['page'])) {
+        $page = $_GET['page'];
+    } else {
+        $page = 1;
+    }
+    return ($page - 1) * 4;
+}
 
-				$successmsg = "Todo item was added successfully!";
-			} else {
-				$errormsg = "Please enter a todo item.";
-			}
-		} elseif (!empty($_POST['remove'])) {
-			// remove item from DB
-			$stmt = $mysqli->prepare("DELETE FROM todos WHERE id = ?;");
-			$stmt->bind_param("i", $_POST['remove']);
-			$stmt->execute();
+$offset =  getOffset();
 
-			$successmsg = "Todo item was removed successfully.";
-		}
-	}
+$query = 'SELECT todo FROM todos LIMIT :limit OFFSET :offset';
+$stmt = $dbc->prepare($query);
+$stmt->bindValue(":limit", $limit, PDO::PARAM_INT);
+$stmt->bindValue(":offset", $offset, PDO::PARAM_INT);
+$stmt->execute();
 
-	$itemsPerPage = 5;
-	$currentPage = !empty($_GET['page']) && is_numeric($_GET['page']) ? intval($_GET['page']) : 1;
-	$offset = ($currentPage - 1) * $itemsPerPage;
+$todoList = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-	$todos = $mysqli->query("SELECT * FROM todos LIMIT $itemsPerPage OFFSET $offset;");
-	$allTodos = $mysqli->query("SELECT * FROM todos;");
+$count = $dbc->query('SELECT count(*) FROM todos')->fetchColumn();
 
-	$maxPage = ceil($allTodos->num_rows / $itemsPerPage);
+if (isset($_GET['page'])) {
+    $page = $_GET['page'];
+} else {
+    $page = 1;
+}
 
-	$prevPage = $currentPage > 1 ? $currentPage - 1 : null;
-	$nextPage = $currentPage < $maxPage ? $currentPage + 1 : null;
+$numPages = ceil($count / $limit);
+
+$nextPage = $page + 1;
+$prevPage = $page - 1;
 
 ?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TODO List</title>
+        <link rel="stylesheet" href="/css/readable_bootstrap.min.css">
+    </head>
+    <body>
 
-<!doctype html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<link rel="stylesheet" type="text/css" href="/css/superhero-bootstrap.css">
-	<link rel="stylesheet" href="/css/todostyle.css" type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans|Oxygen|Roboto+Slab' rel='stylesheet' type='text/css'>
-	<script src="/js/bootstrap.js"></script>
-	<title>Do All the Things</title>
-</head>
-<body>
-	<div class="container">
-		<? if (!empty($successmsg)): ?>
-			<div class='alert alert-success'><?= $successmsg; ?></div>
-		<? endif; ?>
-		<? if (!empty($errormsg)): ?>
-			<div class='alert alert-danger'><?= $errormsg; ?></div>
-		<? endif; ?>
+        <div class="container">
 
-	<div class='center-block'>
-		<h1>TODO List</h1>
-		<a href="#" id="imgclick"><img src='img/do-all-things.png' width=200 height=150 class='img-rounded'></a>
-	</div>
-	<br>
-		<table class="table">
-		<? while ($todo = $todos->fetch_assoc()): ?>
-			<tr>
-				<td><?= $todo['item']; ?></td>
-				<td><button class="btn btn-danger btn-sm pull-left" onclick="removeById(<?= $todo['id']; ?>)">Remove</button></td>
-			</tr>
-		<? endwhile; ?>
-		</table>
+            <h2>Todo List</h2>
+            <ul>
+                <? if (!empty($todoList)): ?>
+                    <?php foreach ($todoList as $todos): ?>
+                        <li><?= $todos['todo']; ?></li>
+                    <?php endforeach ?>
+                <? else: ?>
+                    <h3>Add some tasks for you to do!</h3>
+                <? endif; ?>
+            </ul>
 
-		<? if ($prevPage != null): ?>
-			<a class="pull-left btn btn-default" href="?page=<?= $prevPage; ?>">&lt; Previous</a>
-		<? endif; ?>
-		
-		<? if ($nextPage != null): ?>
-			<a class="pull-left btn btn-default" href="?page=<?= $nextPage; ?>">Next &gt;</a>
-		<? endif; ?>
-		<br>
-		<div id='add-items'>
-			<h2>Add Items</h2>
-			<form class="form-inline" role="form" action="todo.php" method="POST">
-				<div class="form-group has-error">
-					<label class="sr-only" for="exampleInputEmail2">Todo Item</label>
-					<input type="text" name="todo" class="form-control" placeholder="Enter todo item" autofocus='autofocus'>
-				</div>
-				<button type="submit" class="btn btn-default">Add Todo</button>
-			</form>
-		</div>
-	</div>
-	<form id="removeForm" action="todo.php" method="post">
-		<input id="removeId" type="hidden" name="remove" value="">
-	</form>
-	<br>
-		<footer>
-			<p class='trademark'>&copy; 2014 <a href="www.writtenbyapanda.com" target="_blank">Written by a Panda</a></p>
-		</footer>
-	</div>
-	<script>
-		
-		var form = document.getElementById('removeForm');
-		var removeId = document.getElementById('removeId');
+            <h3>Do something!</h3>
+            
+            <form method="POST"  action="todo.php">
+                <input id="new_item" type="new_item" name="new_item" autofocus>
+                <button>Submit</button>
+            </form>
+            <?php if ($page > 1): ?>
+                <a class="btn btn-link" href="?page=<?= $prevPage; ?>">&#8592; Previous</a>
+            <?php endif; ?>
 
-		function removeById(id) {
-			if (confirm('Are you sure you want to remove item ' + id + '?')) {
-				removeId.value = id;
-				form.submit();
-			}
-		}
+            <?php if ($page <= $numPages): ?>
+                <a class="btn btn-link" href="?page=<?= $nextPage; ?>">Next &rarr;</a>
+            <?php endif ?>
+            
+        
+        </div>
 
-	</script>
-</body>
+        <script src="/js/jquery-1.11.0.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script>
+            // $('.btnRemove').click(function() {
+            //     var todoId = $(this).data('todo');
+            //     if (confirm('Are you sure you want to remove the item?')) {
+            //         $('#removeId').val(todoId);
+            //         $('#removeForm').submit();
+            //     };
+            // });
+        </script>
+    </body>
 </html>
